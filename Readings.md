@@ -1,0 +1,21 @@
+- ITS theory
+  - [The Behavior of Tutoring Systems](https://cs.uky.edu/~sgware/reading/papers/vanlehn2006behavior.pdf)
+  - [AutoTutor and Family](https://link.springer.com/article/10.1007/s40593-014-0029-5)
+  - [Intelligent Tutoring Systems](https://www.ijcai.org/Proceedings/09/Papers/012.pdf)
+- Socratic questioning papers
+  - [A Socratic Tutor for Source Code Comprehension](https://pmc.ncbi.nlm.nih.gov/articles/PMC7334736/)
+  - [Enhancing Critical Thinking](https://arxiv.org/abs/2409.05511)
+  - [Socratic Playground for Learning](https://arxiv.org/pdf/2406.13919)
+- Scaffolding/Novice tutor papers
+  - [Help Seeking with ITS](https://link.springer.com/article/10.1007/s40593-015-0089-1)
+  - [Applying Real-Time Dynamic Scaffolding](https://onlinelibrary.wiley.com/doi/10.1155/2022/6006467)
+- Explanatory tutor papers
+  - [CompPrehension](https://onlinelibrary.wiley.com/doi/10.1155/2022/6006467)
+  - [AutoTutor](https://dl.acm.org/doi/10.1145/2395123.2395128)
+- Student modeling / Knowledge tracing
+  - [BKT](https://act-r.psy.cmu.edu/wordpress/wp-content/uploads/2012/12/893CorbettAnderson1995.pdf)
+  - [DKT](https://stanford.edu/~cpiech/bio/papers/deepKnowledgeTracing.pdf)
+- Datasets
+  - [ASSISTments](https://sites.google.com/site/assistmentsdata/home/2009-2010-assistment-data)
+  - [EdNet](https://dl.acm.org/doi/10.1145/3448139.3448188)
+  - [ES-KT-24](https://arxiv.org/html/2409.10244v1)
