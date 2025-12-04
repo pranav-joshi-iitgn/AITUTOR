@@ -1,0 +1,18 @@
+- Soctraic method is based on Deweyan inquiry
+- Socrates compares it to mid-wifery. A mid-wife helps a mother deliver a baby, whereas Socrates helps "students" deliver knowledge.
+- Socratic method has 5 stages
+  - Wonder (similar to doubt in Deweyan cycle)
+  - Hypothesis
+  - Elenchus : Refutation and cross-examination. This happens via 
+    - counter-examples
+    - self-contradiction (person believes $c$ but says $a$ and $b$, which imply $\sim c$, thus proving that either $c$ is false or one of $a,b$ is false.)
+  - Acceptance or Rejection of Hypothesis
+  - Action based on findings
+- Classic Socratic Method
+  - Used to discuss moral concepts such as justice, holiness, friendship, virtue, etc.
+  - Only pumping and questioning is done. The questions aren't tailored to hint at expected KCs.
+  - Mainly done so that the audience gives their views on topics. There is absolute truth here.
+- Modern Socratic Method
+  - This is used for delivering "absolute" knowledge.
+  - Classical method is just identification and definition of concepts via concenseus.
+  - Modern method involves teaching specific KCs.

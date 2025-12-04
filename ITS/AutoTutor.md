@@ -9,11 +9,11 @@ The dialog structures that AutoTutor tries to mimic are
     4. Student tries to correct his answer
     5. If answer still not satisfactory, go back to step 3. If satisfacory, evaluate student's understanding and ask if he understands the main concepts (with reference to the convo.)
 - Expectation and Misconception Tailored (EMT) dialog : The tutor guides the student in articulating (and potentially constructing) the knowledge concepts that needs to be learnt/payed attention to so that the main question may be solved. For this we use these dialog moves: 
-    - pumps ("What else") : No info, no pointing
-    - hints ("What about X") : Directing attention
+    - pumps ("What else") : No info, no pointing (minimal feedback)
+    - hints ("What about X") : Directing (pointing) attention
     - prompts ("X is a type of what?") : Prompting to extract a particular fact or relationship.
-    - assertions ("X is a type of Y") : Just stating the fact in abstract.
-    - asnwers ("since X is a type of Y..") : Connecting to the main question.
+    - assertions ("X is a type of Y") : Just stating the fact in abstract (teaching hint).
+    - asnwers ("since X is a type of Y..") : Connecting to the main question (reasoning hint).
 - Conversational turn management : Every turn of any tutor (humans too) has 3 slots
     - Feedback ("very good", "not quite", etc.)
     - Dialogue Move (prompt, assertion, etc.)
