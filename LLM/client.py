@@ -1,5 +1,6 @@
 import requests
 import json
+from time import time
 
 # --- CONFIGURATION ---
 
@@ -25,8 +26,6 @@ def get_llm_response(prompt: str, model: str):
         "model": model,
         "prompt": prompt
     }
-
-    print(f"\n--- Sending Request for Model: {model} ---")
     
     try:
         # The 'json=' parameter automatically sets the Content-Type header to application/json
@@ -41,53 +40,43 @@ def get_llm_response(prompt: str, model: str):
 
         # Handle successful response (Status 200)
         if response.status_code == 200 and response_data.get('status') == 'success':
-            print("✅ API Call Successful!")
-            print(f"Generated Text:\n{response_data.get('generated_text')}\n")
+            # print("API Call Successful!")
+            res = response_data.get('generated_text')
+            # print(f"Generated Text:\n{res}\n")
+            return res
         
         # Handle server-side errors (e.g., Missing model or Ollama connection error)
         else:
-            print(f"❌ Server Error ({response.status_code}): {response_data.get('error', 'Unknown error')}")
+            return ConnectionError(f"Server Error ({response.status_code}): {response_data.get('error', 'Unknown error')}")
             
     except requests.exceptions.HTTPError as e:
         # Handle specific HTTP error codes like 401 (Unauthorized)
         try:
             error_details = e.response.json()
-            print(f"❌ HTTP Error {e.response.status_code}: {error_details.get('error', 'Authentication or Client Error')}")
+            return ConnectionError(f"HTTP Error {e.response.status_code}: {error_details.get('error', 'Authentication or Client Error')}")
         except json.JSONDecodeError:
-            print(f"❌ HTTP Error {e.response.status_code}: Could not parse error response from server.")
+            return ConnectionError(f"HTTP Error {e.response.status_code}: Could not parse error response from server.")
     
     except requests.exceptions.RequestException as e:
         # Handle network issues (e.g., server not running, connection timeout)
-        print(f"❌ Connection Error: Could not connect to the server at {SERVER_URL}.")
-        print(f"Details: {e}")
+        return ConnectionError(f"Could not connect to the server at {SERVER_URL}.\nDetails: {e}")
+
+def test(test_number:int,model:str,prompt:str):
+    print(f"\nTest {test_number}\n")
+    print("Prompt:\n",prompt)
+    t0 = time()
+    res = get_llm_response(prompt=prompt,model=model)
+    t1 = time()
+    dt = float(t1 - t0)
+    if isinstance(res,ConnectionError):raise res
+    else: print(f"Response arrived in {dt:.2f} s from model \"{model}\":\n",res)
 
 # --- TEST CASES ---
 
 if __name__ == '__main__':
-    
-    # 1. Successful Request
-    # print("\nTest 1\n")
-    # get_llm_response(
-    #     prompt="Write a two-line motivational quote about learning Python.", 
-    #     model="qwen3:30B"
-    # )
-
-    # 2. Test Model Download/Check (Uses a model that might need to be pulled)
-    # The server will initiate the pull and wait before responding.
-    print("\nTest 2\n")
-    get_llm_response(
-        prompt="What is the capital of France?", 
-        model="mistral" 
-    )
-
-    # 3. Test a different user/pass (You would modify the global variables for a real test)
-    # For this demonstration, we'll keep the successful credentials and just show the function call.
-    # To truly test the auth failure, you'd change USERNAME/PASSWORD temporarily.
-    # The server log will show: ❌ HTTP Error 401: Authentication Failed. Invalid credentials.
-    
-    # Example of a malformed request (which the server should return a 400 for)
-    # The authentication will pass, but the missing 'prompt' will trigger a server error response.
-    # You would need to temporarily modify the payload in the function to test this, 
-    # but the error handling is ready for it.
-    
-    print("\n--- Testing complete. Ensure your server (app.py) is running! ---")
+    test(1,"mistral","What is the capital of France?")
+    test(2,"qwen3:0.6B","What is the capital of France?")
+    test(3,"qwen3:1.7B","What is the capital of France?")
+    test(4,"qwen3","What is the capital of France?") # latest / 8B
+    # test(5,"qwen3:30B","Write a two-line motivational quote about learning Python.")
+    print("\n\n--- Testing complete ---")
