@@ -3,6 +3,7 @@ import json
 import sys
 from functools import wraps
 from flask import Flask, request, jsonify, Response
+from waitress import serve
 from werkzeug.security import generate_password_hash, check_password_hash
 import ollama
 
@@ -137,7 +138,9 @@ if __name__ == '__main__':
     STATIC_IP = "10.0.177.29"
     if "--test" in sys.argv:
         print("Test endpoint: POST http://127.0.0.1:8000/generate")
-        app.run(host='127.0.0.1', port=8000, debug=True)
+        # app.run(host='127.0.0.1', port=8000, debug=True)
+        serve(app,host='127.0.0.1',port=8000)
     else:
         print(f"API endpoint: POST http://{STATIC_IP}:8000/generate")
-        app.run(host=STATIC_IP,port=8000, debug=True)
+        # app.run(host=STATIC_IP,port=8000, debug=True)
+        serve(app,host=STATIC_IP,port=8000)
