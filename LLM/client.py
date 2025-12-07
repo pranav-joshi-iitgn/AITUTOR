@@ -30,7 +30,7 @@ def get_llm_response(prompt: str, model: str):
     try:
         # The 'json=' parameter automatically sets the Content-Type header to application/json
         # and serializes the dictionary into a JSON string.
-        response = requests.post(SERVER_URL, json=payload, timeout=60)
+        response = requests.post(SERVER_URL, json=payload, timeout=300)
 
         # Check for HTTP status codes (2xx is success)
         response.raise_for_status() 
@@ -77,6 +77,7 @@ if __name__ == '__main__':
     test(1,"mistral","What is the capital of France?")
     test(2,"qwen3:0.6B","What is the capital of France?")
     test(3,"qwen3:1.7B","What is the capital of France?")
-    test(4,"qwen3","What is the capital of France?") # latest / 8B
-    # test(5,"qwen3:30B","Write a two-line motivational quote about learning Python.")
+    test(4,"qwen3:4B","What is the capital of France?")
+    test(5,"qwen3","What is the capital of France?") # latest / 8B
+    # test(6,"qwen3:30B","Write a two-line motivational quote about learning Python.")
     print("\n\n--- Testing complete ---")

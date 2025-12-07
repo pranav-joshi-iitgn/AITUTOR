@@ -1,26 +1,76 @@
 from client import get_llm_response
 
+SYSTEM_START_TOKEN = {
+    "qwen3":"<|im_start|>system\n",
+    "gpt-oss":"<|im_start|>system\n",
+    "mistral":"<s>[INST] <<SYS>>\n",
+}
+SYSTEM_END_TOKEN = {
+    "qwen3":"<|im_end|>",
+    "gpt-oss":"<|im_end|>",
+    "mistral":"<</SYS>>\n"
+}
+ASSISTANT_START_TOKEN = {
+    "qwen3":"<|im_start|>assistant\n",
+    "gpt-oss":"<|im_start|>assistant\n",
+    "mistral":""
+}
+ASSISTANT_END_TOKEN = {
+    "qwen3":"<|im_end|>",
+    "gpt-oss":"<|im_end|>",
+    "mistral":"</s>"
+}
+USER_START_TOKEN = {
+    "qwen3":"<|im_start|>user\n",
+    "gpt-oss":"<|im_start|>user\n",
+    "mistral":"<s>[INST]"
+}
+USER_END_TOKEN = {
+    "qwen3":"<|im_end|>",
+    "gpt-oss":"<|im_end|>",
+    "mistral":"[/INST]"
+}
+
+
 class Agent:
     def __init__(self,model,system_prompt):
         self.model = model
         self.sysprompt = system_prompt
         self.convo = []
     def speak(self):
+        m = self.model.split(":")[0]
         convo = "\n".join(self.convo)
-        sysprompt = "<|im_start|>system\n" + self.sysprompt + "<|im_end|>"
-        prompt = sysprompt + "\n" + convo + "\n<|im_start|>assistant"
+        sysprompt = SYSTEM_START_TOKEN[m] + self.sysprompt + SYSTEM_END_TOKEN[m]
+        prompt = sysprompt + "\n" + convo + "\n" + ASSISTANT_START_TOKEN[m]
+
         res = get_llm_response(prompt,self.model)
         if isinstance(res,ConnectionError): raise res
         else: 
-            self.convo.append("<|im_start|>assistant\n" + res + "<|im_end|>")
+            self.convo.append(ASSISTANT_START_TOKEN[m] + res + ASSISTANT_END_TOKEN[m])
             return res
     def hear(self,messages):
+        m = self.model.split(":")[0]
         if isinstance(messages,list): self.convo.extend(messages)
-        else: self.convo.append("<|im_start|>user\n" + messages+"<|im_end|>")
+        elif m == "mistral" and len(self.convo)==0:
+            self.convo.append(messages+USER_END_TOKEN[m])
+        else:
+            self.convo.append(USER_START_TOKEN[m] + messages + USER_END_TOKEN[m])
+    def generate(self,prompt,sysprompt=None):
+        """Memory-less prompting"""
+        m = self.model.split(":")[0]
+        if sysprompt is None: sysprompt = self.sysprompt
+        sysprompt = SYSTEM_START_TOKEN[m] + sysprompt + SYSTEM_END_TOKEN[m]
+        if m == "mistral":
+            userprompt =  prompt + USER_END_TOKEN[m]            
+        userprompt = USER_START_TOKEN[m] + prompt + USER_END_TOKEN[m]
+        fullprompt = sysprompt + "\n" + userprompt + "\n" + ASSISTANT_START_TOKEN[m]
+        res = get_llm_response(fullprompt,self.model)
+        if isinstance(res,ConnectionError): raise res
+        else: return res
 
 if __name__ == "__main__":
     sysprompt = "You are a very sarcastic and rude person."
-    model = "qwen3"
+    model = "gpt-oss"
     rude_guy = Agent(model,sysprompt)
     while True:
         your_message = input("> ")
