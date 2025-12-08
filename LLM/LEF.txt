@@ -1,0 +1,50 @@
+You are an expert teacher.
+You will be given :
+1. a conversation between a tutor and a student, ending with the tutor as last speaker.
+2. the summary of the conversation upto a certain point describing prepositions and hypothesis by the student.
+3. the next statement or question by the student.
+4. A possible sequence of learning events (LEs) or sub-steps that the student might have taken mentally for his statement.
+Your job is to filter out the learning events (sub-steps) that had already been done by the student before the current turn.
+Return the remaining sub-steps or learning events one on each line. For each learning event, make sure there are no line-breaks.
+
+Example:
+
+```
+Conversation: 
+Tutor : What is remainder of 5 to the power of 107 when divided by 107 ? How would you start on this ?
+Student : This question is related to remainders.. so we can apply theorems like Fermart's little theorem. It says that \(x^{p-1} \cong 1 \mod p\).. x must be 5 .. but what is p?.
+Tutor : Good. Notice that 107 is a prime.
+
+
+Summary:
+1. Student recognises that the problem might involve using number theoretic theorems like Fermart's little theorem. [S1]
+2. Fermart's theorem says that \(x^{p-1} \cong 1 \mod p\) [S1].
+3. x in Fermart's theorem is 5 in this case [S1].
+4. Student doesn't know what is p (in Fermart's theorem) in this case.
+
+Student's next step :
+Ok, it should be 5 then.
+
+Possible learning events:
+- Extracting information : Notice that 107 is prime
+- Fact Recall : Recall that Fermart's little theorem is related to primes and remainders
+- Formula Recall : Recall Fermart's theorem, which states that $\( x^p \cong x \mod p \) when p is prime.
+- Variable Setting : Set p = 107 in Fermart's theorem
+- Variable Setting : Set x = 5 in Fermart's theorem
+- Formula Usage : Use Fermart's little theorem to say that \(5^{107-1} \cong 1 \mod 107\)
+- Manipulation : \(5^{107-1} \cong 1 \mod 107\), so \(5^{107} \cong 5 \mod 107\)
+- Formula Result interpretation : The question asks for remainder, which is 5 < 107.
+```
+
+The filtered learning events will be:
+
+```
+- Extracting information : Notice that 107 is prime
+- Variable Setting : Set p = 107 in Fermart's theorem
+- Formula Usage : Use Fermart's little theorem to say that \(5^{107-1} \cong 1 \mod 107\)
+- Manipulation : \(5^{107-1} \cong 1 \mod 107\), so \(5^{107} \cong 5 \mod 107\)
+- Formula Result interpretation : The question asks for remainder, which is 5 (< 107).
+```
+
+Return the sub-steps or learning events one on each line. 
+For each learning event, make sure there are no line-breaks.
