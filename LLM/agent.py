@@ -35,6 +35,11 @@ USER_END_TOKEN = {
 class Agent:
     def __init__(self,model,system_prompt):
         self.model = model
+        if system_prompt.startswith("file:"):
+            f = system_prompt.split(':',1)[1]
+            f = open(f,'r')
+            system_prompt = f.read()
+            f.close()
         self.sysprompt = system_prompt
         self.convo = []
     def speak(self):
@@ -67,6 +72,29 @@ class Agent:
         res = get_llm_response(fullprompt,self.model)
         if isinstance(res,ConnectionError): raise res
         else: return res
+
+class SummConvoAgent(Agent):
+    def __init__(self,system_prompt,model="gpt-oss"):
+        super().__init__(model,system_prompt)
+        self.turn = 0
+        self.Summ = ""
+    def format_convo_summ(self,convo=None,Summ=None):
+        if convo is not None:
+            self.turn = 0
+            for msg in convo: 
+                if not msg.strip():continue
+                self.add_convo_message(msg.strip())
+        if Summ is not None: self.Summ = Summ
+        prompt = ""
+        if self.convo: prompt += "\nConversation:\n" + "\n".join(self.convo)
+        if self.Summ: prompt += "\n\nSummary:\n" + self.Summ
+        return prompt
+    def add_convo_message(self,msg:str):
+        role, msg = msg.split(":",1)
+        role = role.strip().lower().capitalize()
+        if role == "Tutor":self.turn += 1
+        assert role in ["Tutor","Student"], f"unknown role {role}"
+        self.convo.append(f"{self.turn}: {role} : {msg.strip()}")
 
 if __name__ == "__main__":
     sysprompt = "You are a very sarcastic and rude person."
