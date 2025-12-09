@@ -1,0 +1,9 @@
+material=
+One can prove that root of a prime p is irrational by contradiction.
+Suppose that root p were rational, then we can write \(\sqrt{p} = \frac{a}{b}\) where a and b are coprime integers and b is not 0
+Then, we have \(p = \frac{a^2}{b^2}\) which implies that \(a^2 = pb^2\) is divisible by \(p\)
+But that means \(a\) is divisible by \(p\) and that means \(a=kp\) which means \(a=k^2p^2\).
+This means that \(k^2p^2 = pb^2 \implies k^2p = b^2\) and thus \(b^2\) is divisible by p
+But then b is divisible by p. Thus, a and b, both a divisible by p and they aren't coprime.
+Thus hypothesis is incorrect. Thus, p cannot be rational.
+E=Prove that square root of 2 is irrational.

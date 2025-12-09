@@ -5,7 +5,18 @@ class Hinter(Agent):
         super().__init__(model,system_prompt)
         self.turn = 0
         self.Summ = ""
-    def hint(self,E:str,Summ=None,convo=None):
+    def hint(self,E:str,Summ=None,convo=None) -> list[str]:
+        """
+        Summ is the summary of the student's work on a problem. The summary also refers to the conversation `convo` sometimed.
+        E is the KC to teach. 
+        Generates the bottom out hint R_B based on Summ
+        Generates reasoning hint R_R,
+        Generates the teaching hint R_T, 
+        the prompting (fill in the blank) hint R_F,
+        ,pointing hint R_P
+        ,and the pump R_M
+        returns hint sequence [R_B,R_R,R_T,R_F,R_P,R_M]
+        """
         if convo is not None:
             self.turn = 0
             for msg in convo: 
@@ -18,7 +29,7 @@ class Hinter(Agent):
         prompt += "\n\nTarget Knowlege Concept to teach:\n" + E
         HS = self.generate(prompt)
         HS = [x.strip() for x in HS.split("\n") if x.strip()]
-        assert len(HS) == 6 , "Wrong number of hints"
+        assert len(HS) == 6 , f"Wrong number of hints: \n" + '\n'.join(HS)
         return HS
     def add_convo_message(self,msg:str):
         role, msg = msg.split(":",1)

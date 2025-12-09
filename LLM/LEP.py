@@ -57,7 +57,7 @@ class ErrorCatcher(SummConvoAgent):
         convo:list[str],
         S:str,
         LE:list[str]
-        ) -> tuple[int,str,str]:
+        ) -> tuple[int,str]:
         """
         Gives the category of error (arithmetic,wrong formula, etc.) made by the student in step S, with summary Summ of previous work in context of conversation `convo`, and the possible learning even sequence LE.
         If there is no error, returns -1.
@@ -106,6 +106,34 @@ class ESF(SummConvoAgent):
         assert len(HS) == 6, f"Incorrect HS:\n{HS}"
         return HS
 
+class SEC(SummConvoAgent):
+    def __init__(self,model="gpt-oss",system_prompt="file:SEC.txt"):
+        "Simple Error Catcher"
+        super().__init__(system_prompt,model)
+    def is_correct(self,
+        S:str,
+        Summ:str,
+        convo:list[str],
+        E,
+        possible_MC:(list|None) = None
+        ) -> (bool|None):
+        """
+        Checks if the step is correct and matches with the KC E
+        or still contains any of the misconceptions `possible_MC`
+        """
+        prompt = self.format_convo_summ(convo,Summ)
+        prompt += "\nStudent's new response:\n" + S
+        prompt += "\nPossible Learning Events:\n" + "\n".join(LE)
+        prompt += "\nKnowledge Concept\n" + str(E)
+        if possible_MC is not None: 
+            prompt += "\nMisconceptions:\n" + "\n".join(
+                ["- " + str(x) for x in possible_MC])
+        good = self.generate(prompt).strip("\n").strip()
+        if good.lower() in ["false","no","n"]:return False
+        elif good.lower() == ["true","yes","y"]:return True
+        elif good.lower() in["partial","incomplete","almost"]:return None
+        return bool(int(good))
+
 if __name__ == "__main__":
     convo = [
         "Tutor : What is the derivative of $x^12+3x$",
@@ -116,6 +144,7 @@ if __name__ == "__main__":
     ]
     Summ = "1. Derivative of x^12 + 3x is 11x^11+3 [S1].\n2. Derivative of x^n is nx^{n-1} [S2]"
     S = "It should be 12x^11 then. So, the answer should be 12x^11 + 2"
+    E = "Derivatives of polynomials"
 
     LE = LEPredictor().predict_Learning_Events(S,Summ,convo)
     print("Unfiltered:")
@@ -124,6 +153,9 @@ if __name__ == "__main__":
     LE = LEFilter().filter_out_old_LE(S,Summ,convo,LE)
     print("Filtered")
     for x in LE: print(x)
+
+    good = SEC().is_correct(S,Summ,convo,E,None)
+    print("Is Correct ? :",good)
 
     ET,SED = ErrorCatcher().catch_error(Summ,convo,S,LE)
     print("Error type : ",ET)

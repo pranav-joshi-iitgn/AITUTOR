@@ -30,16 +30,17 @@ class MC(KC):
     remedies:list
 
 class KCExtractor(Agent):
-    def __init__(self,model="gpt-oss",system_prompt='file:KCExtractor.txt'):
+    def __init__(self,model="gpt-oss",system_prompt='file:KCExtractor.txt',KCList =[]):
         super().__init__(model,system_prompt)
-        self.KCList = [KC(x) for x in [
-            "power rule of differentiation, i.e. d/dx (x^n) = n x^{n-1}",
-            "distributive property of differentiation over addition",
-            "derivative of constant is 0",
-            "distributive property of multiplication over addition",
-            "abelian groups have commutivity",
-        ]]
-        print("KCs loaded")
+        # self.KCList = [KC(x) for x in [
+        #     "power rule of differentiation, i.e. d/dx (x^n) = n x^{n-1}",
+        #     "distributive property of differentiation over addition",
+        #     "derivative of constant is 0",
+        #     "distributive property of multiplication over addition",
+        #     "abelian groups have commutivity",
+        # ]]
+        self.KCList = KCList
+        # print("KCs loaded")
 
     def extract_E_i(self,
         g:str,
@@ -52,13 +53,12 @@ class KCExtractor(Agent):
         Returns a mapping from goal KCs to the mastery level required.
         The map can be full or shortened (via thresholding of mastery levels)
         """
-        global KCList
         beta = {}
-        for k in KCList:
+        for k in self.KCList:
             prompt = f"Material:\n{material}\nGoal:\n{g}\nKnowledge Concept:\n{k}"
             res = self.generate(prompt)
             beta[k] = float(res)
-            print(k,":",res)
+            # print(k,":",res)
         return beta
 
 if __name__ == "__main__":

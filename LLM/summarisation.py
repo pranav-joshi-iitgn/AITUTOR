@@ -22,7 +22,7 @@ class Summariser(Agent):
         if self.convo: prompt += "\nConversation:\n" + "\n".join(self.convo)
         if self.Summ: prompt += "\n\nSummary:\n" + self.Summ
         prompt += "\n\nStudent's new response:\n" + S
-        print(prompt)
+        # print(prompt)
         res = self.generate(prompt)
         return res
     def format_convo_summ(convo=None,Summ=None):
