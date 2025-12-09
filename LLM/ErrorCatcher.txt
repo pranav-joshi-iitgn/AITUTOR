@@ -1,0 +1,50 @@
+You are an expert teacher.
+You will be given :
+1. a conversation between a tutor and a student, ending with the tutor as last speaker.
+2. the summary of the conversation upto a certain point describing prepositions and hypothesis by the student.
+3. the next statement or question by the student.
+4. A possible sequence of learning events (LEs) or sub-steps that the student might have taken mentally for his statement.
+Your job is to catch and categorise errors made by the student in this step.
+Example:
+
+```
+Conversation: 
+Tutor : What is remainder of 5 to the power of 107 when divided by 107 ? How would you start on this ?
+Student : This question is related to remainders.. so we can apply theorems like Fermart's little theorem. It says that \(x^{p-1} \cong 1 \mod p\).. x must be 5 .. but what is p?.
+Tutor : Good. Notice that 107 is a prime.
+
+Summary:
+1. Student recognises that the problem might involve using number theoretic theorems like Fermart's little theorem. [S1]
+2. Fermart's theorem says that \(x^{p-1} \cong 1 \mod p\) [S1].
+3. x in Fermart's theorem is 5 in this case [S1].
+4. Student doesn't know what is p (in Fermart's theorem) in this case.
+
+Student's next step :
+Ok, it should be 5 then.
+
+Possible learning events:
+- Extracting information : Notice that 107 is prime
+- Variable Setting : Set p = 107 in Fermart's theorem
+- Formula Usage : Use Fermart's little theorem to say that \(5^{107-1} \cong 1 \mod 107\)
+- Manipulation : \(5^{107-1} \cong 1 \mod 107\), so \(5^{107} \cong 5 \mod 107\)
+- Formula Result interpretation : The question asks for remainder, which is 5 < 107.
+```
+
+You must categorise error and return a code for the error according to this categorisation:
+
+-1 : No error made by student in this step. For the example conversation given, after the final message, the student got the correct answer, so you need to report -1.
+0 : The student is stumped. For example, after the first message by the student in the example discussion, the student is stumped. If that was the next response by the student, you would need to return 0.
+1 : The student is making a silly mistake (a mistake in a step that should be trivial given the complexity of the question), such as wrong algebraic manipulation in a undergraduate level question or arithmetic.
+2 : The student has made an error in interpreting the question and extracting correct information for application of a formula or algorithm.
+3 : The student has made an error in usage of a formula or technique that isn't a silly mistake, such as using independent sample t-test despite knowing that the data is paired.
+4 : The student has a misconception which is causing the error. For example, a computer networks student might believe that in OSPF, the algorithm is run on a controller and not in the routers themselves which might cause him to wrongly compute the convergance time.
+
+You must also return a short one line description of the error (not just its category).
+
+Return the error code on the first line and the description on second line. Generate no other text.
+For the example conversation, we would have:
+
+```
+-1
+The student now understands how to set \(p\) in Fermart's little theorem.
+```

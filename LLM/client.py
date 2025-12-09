@@ -30,7 +30,7 @@ def get_llm_response(prompt: str, model: str):
     try:
         # The 'json=' parameter automatically sets the Content-Type header to application/json
         # and serializes the dictionary into a JSON string.
-        response = requests.post(SERVER_URL, json=payload, timeout=300)
+        response = requests.post(SERVER_URL, json=payload, timeout=600)
 
         # Check for HTTP status codes (2xx is success)
         response.raise_for_status() 
