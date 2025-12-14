@@ -1,11 +1,15 @@
 from agent import Agent
 
 class Hinter(Agent):
-    def __init__(self,model="gpt-oss",system_prompt = "file:Hinter.txt"):
+    def __init__(self,model="gpt-oss",system_prompt = "file:Hinter.txt", system_prompt2="file:Hinter2.txt"):
+        if system_prompt2.startswith('file'):
+            with open(system_prompt2.split(":",1)[1],'r') as f:
+                system_prompt2 = f.read()
         super().__init__(model,system_prompt)
+        self.sysprompt2 = system_prompt2
         self.turn = 0
         self.Summ = ""
-    def hint(self,E:str,Summ=None,convo=None) -> list[str]:
+    def hint(self,E:str,Summ=None,convo=None,g=None,SP=None) -> list[str]:
         """
         Summ is the summary of the student's work on a problem. The summary also refers to the conversation `convo` sometimed.
         E is the KC to teach. 
@@ -27,7 +31,11 @@ class Hinter(Agent):
         if self.convo: prompt += "\nConversation:\n" + "\n".join(self.convo)
         if self.Summ: prompt += "\n\nSummary:\n" + self.Summ
         prompt += "\n\nTarget Knowlege Concept to teach:\n" + E
+        if g: prompt += "\n\nMain goal:\n" + g
+        if SP: prompt += "\n\nPossible plan that student is following:\n" + SP
         HS = self.generate(prompt)
+        prompt += "\nHints:\n" + HS
+        HS = self.generate(prompt,self.sysprompt2)
         HS = [x.strip() for x in HS.split("\n") if x.strip()]
         assert len(HS) == 6 , f"Wrong number of hints: \n" + '\n'.join(HS)
         return HS

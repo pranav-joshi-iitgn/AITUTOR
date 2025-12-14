@@ -38,4 +38,23 @@ A possible sequence of learning events can be:
 
 Give most probable such sequences, separated by an empty line. Make sure that these sequences are actually compatible with what the student said. 
 DO NOT make up hypothetical scenarios on how the student _could_ have answeres. Only try to predict how the student _did_ answer.
+
+Example :
+
+```
+Conversation: 
+Teacher: Is a^2+b^2=c^2 for a pythagorean triplet ?
+
+
+Student's next step: 
+What are a,b,c here ?
+```
+
+In this conversation, you should NOT return learning events like "student recalls pythagorean triple", "student applies the definition to current question",etc.
+Instead, you will say :
+
+```
+- Student saw unfamiliar or unexplained notation and asked for clarification
+```
+
 Return the sub-steps or learning events one on each line. For each learning event, make sure there are no line-breaks.

@@ -1,8 +1,13 @@
-from agent import SummConvoAgent
+from agent import SummConvoAgent,FullStateAgent
 
 class LEPredictor(SummConvoAgent):
-    def __init__(self,model="gpt-oss",system_prompt="file:LEP.txt"):
+    def __init__(self,model="gpt-oss",system_prompt="file:LEP.txt",system_prompt2="file:LEP2.txt"):
+        if system_prompt2.startswith('file:'):
+            with open(system_prompt2.split(":",1)[1],'r') as f:
+                system_prompt2 = f.read()
         super().__init__(system_prompt,model)
+        self.sysprompt2 = system_prompt2
+
 
     def predict_Learning_Events(self,
         S:str,
@@ -23,9 +28,11 @@ class LEPredictor(SummConvoAgent):
             prompt += "\nPossible Misconceptions\n" + "\n".join("- " + m for m in possible_MC)
         LE = self.generate(prompt)
         LE = [x.strip("\n") for x in LE.split("\n\n")]
-        LE = [[x.strip() for x in y.split("\n") if x.strip()] for y in LE]
-        # TODO : rank according to mastery to get most probable sequence
-        return LE[0]
+        LE = LE[0] # TODO : rank according to mastery to get most probable sequence
+        prompt += "\nPossible Learning Events:\n" + LE
+        LE = self.generate(prompt,self.sysprompt2)
+        LE = [x.strip() for x in LE.split("\n") if x.strip()] 
+        return LE
 
 class LEFilter(SummConvoAgent):
 
@@ -84,7 +91,8 @@ class ESF(SummConvoAgent):
         S:str, # faulty step by student
         LE:list[str], # possible learning events
         ED:str, # Error description
-        possible_MC:(list|None)=None # Possible misconceptions
+        possible_MC:(list|None)=None, # Possible misconceptions
+        attempts=0
         ) -> list[str]:
         """ 
         Generates Error-Specific-Feedback (ESF) at different levels:
@@ -100,8 +108,29 @@ class ESF(SummConvoAgent):
         prompt += "\nStudent's new response:\n" + S
         prompt += "\nPossible Learning Events:\n" + "\n".join(LE)
         prompt += "\nPossible Error:\n" + ED
-        HS = self.generate(prompt)
-        HS = HS.strip("\n").strip().split("\n")
+        HS_0 = HS = self.generate(prompt)
+
+        try:
+            HS = HS.split("\n")
+            HS = [x for x in HS if x.strip()]
+            assert len(HS) == 6, f"Incorrect HS:\n{HS}"
+            return HS
+        except:
+            sysprompt = (
+            "You are a formatting expert. You will be given statements/hints that you need to put in a specific format given WITHOUT changing the content." 
+            + "\nThe format is:\nR_B : ....\nR_R : .....\nR_T : .....\nR_F : .....\nR_P : .....\nR_M : ....."
+            + "\n\nIn case it's not easy to figure it out, just return 0, with no other text."
+            )
+            prompt = f"Statements : \n{HS}\n"
+            HS = HS_0.strip("\n").strip().strip("\n")
+            HS = self.generate(HS)
+        try:
+            HS = int(HS)
+            assert HS == 0
+            if HS == 0 and attempts < 2: 
+                return self.generate_ESF_sequence(Summ,convo,S,LE,ED,possible_MC,attempts+1)
+        except:pass
+        HS = HS.split("\n")
         HS = [x for x in HS if x.strip()]
         assert len(HS) == 6, f"Incorrect HS:\n{HS}"
         return HS
@@ -123,7 +152,7 @@ class SEC(SummConvoAgent):
         """
         prompt = self.format_convo_summ(convo,Summ)
         prompt += "\nStudent's new response:\n" + S
-        prompt += "\nPossible Learning Events:\n" + "\n".join(LE)
+        # prompt += "\nPossible Learning Events:\n" + "\n".join(LE)
         prompt += "\nKnowledge Concept\n" + str(E)
         if possible_MC is not None: 
             prompt += "\nMisconceptions:\n" + "\n".join(
@@ -134,21 +163,54 @@ class SEC(SummConvoAgent):
         elif good.lower() in["partial","incomplete","almost"]:return None
         return bool(int(good))
 
+class PlanPredictor(FullStateAgent):
+    def __init__(self,model="gpt-oss",system_prompt='file:plan.txt'):
+        super().__init__(model,system_prompt)
+    def predict_plan(self,g,E,new_Summ, LE, convo, S,ED = None,possible_MC=None) -> str:
+        prompt = self.format_convo_summ(S,convo,new_Summ,LE,ED,possible_MC)
+        prompt += "Knowledge Concept:\n" + E
+        prompt += "Main Goal:\n" + g
+        plan = self.generate(prompt).strip().strip("\n").strip()
+        code,plan = plan.split("\n",1)
+        code = int(code)
+        return code,plan
+
+class Clarifier(FullStateAgent):
+    def __init__(self,model="gpt-oss",system_prompt='file:clarify.txt'):
+        super().__init__(model,system_prompt)
+    def clarification(self,g,E,new_Summ,LE,convo,S,SP,ED=None,possible_MC=None) -> str:
+        """
+        Asks the student for clarification
+        """
+        prompt = self.format_convo_summ(S,convo,new_Summ,LE,ED,possible_MC)
+        prompt += "Knowledge Concept:\n" + E
+        prompt += "Main Goal:\n" + g
+        prompt += "Student's plan:\n" + SP
+        return self.generate(prompt).strip().strip("\n").strip()
+
 if __name__ == "__main__":
     convo = [
-        "Tutor : What is the derivative of $x^12+3x$",
-        "Student : It is $11x^11 + 2$",
+        "Tutor : What is the derivative of \(x^12+3x\)",
+        "Student : It is \(11x^11 + 2\)",
         "Tutor : Are you sure? Do you remember what the derivative of x^n is ?",
         "Student : It is nx^{n-1}",
         "Tutor : Good. Then what is the derivative of x^12?",
     ]
-    Summ = "1. Derivative of x^12 + 3x is 11x^11+3 [S1].\n2. Derivative of x^n is nx^{n-1} [S2]"
+    g = "Derivative of \(x^12+3x\)"
+    Summ = "1. Derivative of \(x^12 + 3x\) is \(11x^11+3\) [S1].\n2. Derivative of x^n is nx^{n-1} [S2]"
     S = "It should be 12x^11 then. So, the answer should be 12x^11 + 2"
     E = "Derivatives of polynomials"
 
     LE = LEPredictor().predict_Learning_Events(S,Summ,convo)
     print("Unfiltered:")
     for x in LE : print(x)
+
+    SPC,SP = PlanPredictor().predict_plan(g,E,Summ,LE,convo,S)
+    print("Student Plan Code:",SPC)
+    print("Student Plan:\n"+SP)
+
+    clarification = Clarifier().clarification(g,E,Summ,LE,convo,S,SP)
+    print("Clarification:\n" +clarification)
 
     LE = LEFilter().filter_out_old_LE(S,Summ,convo,LE)
     print("Filtered")

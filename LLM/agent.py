@@ -96,6 +96,24 @@ class SummConvoAgent(Agent):
         assert role in ["Tutor","Student"], f"unknown role {role}"
         self.convo.append(f"{self.turn}: {role} : {msg.strip()}")
 
+class FullStateAgent(SummConvoAgent):
+    def __init__(self,system_prompt,model="gpt-oss"):
+        super().__init__(model,system_prompt)
+    def format_convo_summ(self,
+        S:str=None,
+        convo:list[str]=None,
+        Summ:str=None,
+        LE:list[str]=None, # possible learning events
+        ED:str=None, # Error description
+        possible_MC:list=None # Possible misconceptions
+        ):
+        prompt = super().format_convo_summ(convo,Summ)
+        if S is not None: prompt += "\nStudent's new response:\n" + S
+        if LE is not None: prompt += "\nPossible Learning Events:\n" + "\n".join(LE)
+        if ED is not None: prompt += "\nPossible Error:\n" + ED
+        return prompt
+
+
 if __name__ == "__main__":
     sysprompt = "You are a very sarcastic and rude person."
     model = "gpt-oss"

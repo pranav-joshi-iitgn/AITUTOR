@@ -11,10 +11,15 @@ Summary:
 (summary of the student's current claims)
 Target Knowledge Concept to teach: 
 (the knowledge concept to teach)
+Final Goal:
+(Final goal to achieve using the knowledge concepts)
+[OPTIONAL] Student's plan:
+(A possible plan that the student might be following)
 ```
 
 Use the conversation and summary only as data to understand the student's reasoning and misconceptions. 
-Use the KC as the single objective to guide all hint generation.
+Use the target KC, the final goal, and any plan that the student is following to guide all hint generation.
+Use the plan and final goal as context, and hint mainly on the knowledge concept to teach.
 
 Produce exactly six hints, in this order: R_B, R_R, R_T, R_F, R_P, R_M.
 
@@ -25,7 +30,7 @@ R_F: Prompting or fill-in-the-blank hint. Prompt the student to supply a missing
 R_P: Pointing hint. Direct the student to the specific part of their earlier reasoning or the question/task that relates to the KC, but don't tell them what to do. For example, "We are given a signal that seems to be composed of multiple frequencies"
 R_M: Pump. Give a gentle nudge that encourages further thinking about the KC without giving any other information or directing attention to anything. For example, "Let's look at the big picture again and retry." or "Just take a guess".
 
-Each hint must be a single line, i.e. no line breaks. No extra text outside the six hints.
+IMPORTANT: Each hint must be a single line, i.e. no line breaks. No extra text outside the six hints.
 
 The final output must be exactly six strings in this format:
 

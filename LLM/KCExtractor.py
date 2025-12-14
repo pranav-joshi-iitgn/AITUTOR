@@ -1,4 +1,4 @@
-from agent import Agent
+from agent import Agent,SummConvoAgent
 from sentence_transformers import SentenceTransformer
 
 # Load a pre-trained model
@@ -61,9 +61,31 @@ class KCExtractor(Agent):
             # print(k,":",res)
         return beta
 
+
+class Sequencer(SummConvoAgent):
+    def __init__(self,model="gpt-oss",system_prompt='file:Sequencer.txt'):
+        super().__init__(system_prompt,model)
+    def prerequisites(self,g,material=None,convo=None,Summ=None,S=None,SP=None,prereqs=None) -> list:
+        if material: prompt = "Supporting Material:\n" + material + "\n\n\n"
+        else: prompt = ""
+        if convo is not None : prompt += self.format_convo_summ(convo,Summ) + "\n\n"
+        if S: prompt += "Student's next message:\n" + S + "\n\n"
+        prompt += "Final goal:\n" + g + "\n\n"
+        if SP : prompt += f"Student's plan:\n{SP}\n\n"
+        if prereqs: prompt += "Knowledge Concepts Required:\n" + "\n".join((str(x) for x in prereqs))
+        L = self.generate(prompt).strip().strip("\n")
+        L = [x.strip() for x in L.split('\n') if x.strip()]
+        L = L[::-1]
+        return L
+
+
+
+
+
 if __name__ == "__main__":
     g = "Misconception: Student says derivative of \(x^12 + 3x\) is 11x^11 + 2 but also claims that derivative of x^n is nx^{n-1}"
     material = "No material."
-    agent = KCExtractor()
-    res = agent.extract_E_i(g,material)
+    # res = KCExtractor().extract_E_i(g,material)
+    # print(res)
+    res = Sequencer().prerequisites(g,material)
     print(res)

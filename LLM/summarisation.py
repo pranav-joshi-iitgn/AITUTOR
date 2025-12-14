@@ -1,4 +1,4 @@
-from agent import Agent
+from agent import Agent,FullStateAgent
 
 class Summariser(Agent):
     def __init__(self,model="gpt-oss",system_prompt='file:summarisation.txt'):
@@ -41,7 +41,7 @@ class Summariser(Agent):
         if role == "Tutor":self.turn += 1
         assert role in ["Tutor","Student"], f"unknown role {role}"
         self.convo.append(f"{self.turn}: {role} : {msg.strip()}")
-    
+
 if __name__ == "__main__":
     convo = [
         "Tutor : What is the derivative of $x^12+3x$",

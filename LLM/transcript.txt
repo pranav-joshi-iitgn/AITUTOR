@@ -1,9 +1,16 @@
-material=
-One can prove that root of a prime p is irrational by contradiction.
-Suppose that root p were rational, then we can write \(\sqrt{p} = \frac{a}{b}\) where a and b are coprime integers and b is not 0
-Then, we have \(p = \frac{a^2}{b^2}\) which implies that \(a^2 = pb^2\) is divisible by \(p\)
-But that means \(a\) is divisible by \(p\) and that means \(a=kp\) which means \(a=k^2p^2\).
-This means that \(k^2p^2 = pb^2 \implies k^2p = b^2\) and thus \(b^2\) is divisible by p
-But then b is divisible by p. Thus, a and b, both a divisible by p and they aren't coprime.
-Thus hypothesis is incorrect. Thus, p cannot be rational.
-E=Prove that square root of 2 is irrational.
+prereqs=
+Conclude that b is even, contradicting a and b being coprime
+Let a = 2k and substitute back to get b² = 2k²
+Deduce that a² even implies a is even
+Square both sides to obtain a² = 2b²
+Represent √2 as a reduced fraction a/b
+Proof by contradiction
+E=Proof by contradiction
+HS =
+R_B: Assume √2 = p/q with p and q coprime; squaring gives 2q² = p²; since p² is even, p is even; let p = 2k; then 2q² = 4k² → q² = 2k², so q is even; both p and q even contradicts coprimality.
+R_R: Because a square of an integer is even only if the integer itself is even, the equation 2q² = p² forces p to be even, and then q to be even, which contradicts that p and q are coprime.
+R_T: In a proof by contradiction, we assume the opposite of what we want to prove, then derive a logical inconsistency that invalidates the assumption.
+R_F: Squaring the equation √2 = p/q gives p² = 2q², so p² is even, meaning p must be even.
+R_P: The contradiction must arise from assuming √2 = p/q is in simplest terms; when you show both p and q are even you contradict that assumption.
+R_M: Explore the implications of p² = 2q²: it forces both p and q to be even, meaning they share a common factor of 2, which contradicts the assumption that they were coprime.
+ Explore the implications of p² = 2q²: it forces both p and q to be even, meaning they share a common factor of 2, which contradicts the assumption that they were coprime.
