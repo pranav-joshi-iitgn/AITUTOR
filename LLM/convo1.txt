@@ -1,0 +1,16 @@
+Let’s review the overall idea again and explore what else can be uncovered.
+> I don't get it...
+It sounds like you’re feeling a bit stuck on how to begin the proof‑by‑contradiction argument.  
+Could you tell me what your current plan is? For instance:
+
+- Do you plan to **assume** that √2 is rational (i.e., that it can be written as a fraction a/b in lowest terms)?
+- Then what do you think you’ll do next—multiply both sides by b, square both sides, simplify, etc.?
+
+Let me know where you’re at, and I’ll help you connect those steps to the proof‑by‑contradiction framework. In the meantime, I’ll say that you’ve identified the right high‑level goal (prove √2 is irrational) and the correct technique (proof by contradiction), so we’re on the right track—just need to map out the specific steps.
+> Ok.. I mean I didn't really say anything. But let's go with proof by contradiction. Let's assume root 2 is rational. Then we'll try to conclude impossibility of it happening.
+Think about what it means for a fraction to be in lowest terms—how would that affect any relationships you derive between the numerator and denominator?
+> Ok.. I get it. You can always write the numerator and denominator as coprimes. So the hypothesis is that root 2 = a/b where a,b are coprime. Now, we need to prove that this can't happen.        
+Think about how the prime number 2 interacts with the equations you’ve written. What does its presence tell you about the numbers that appear on each side of the equation?
+> a = b root 2 .. so if b is an integer .. then .. i don't know how to proceed..
+Let's try again. Think back to the equation you derived from \(a=b\sqrt{2}\) – the one where you square both sides.  In that equation the prime number 2 appears on the right‑hand side.  Consider what the presence of 2 on that side tells you about the left‑hand side, specifically about the prime‑divisibility of the square that shows up there.
+>

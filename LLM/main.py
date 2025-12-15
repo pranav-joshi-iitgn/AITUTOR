@@ -79,15 +79,19 @@ def Teach(
         # E,lev = pop_next_E_i(mastery,prereqs,MASTERY_THRESH)
         E = prereqs.pop()
         log("E=" + str(E))
+        if convo:
+            good = SEC().is_correct(None,Summ,convo,E,None)
+            log("good=",str(good))
+            if good: continue
         lev = 5
         # # lev is not a level of mastery, but a level of "frustration"
         # if lev < 0 and depth < MAX_DEPTH:
         #     g_new = Create_new_goal_for_KC(g,Summ,convo,E)
         #     start_new_thread(g_new,mastery,depth+1,convo)
         #     continue # after teaching g_new
-        HS = Hinter_agent.hint(E,Summ,convo,g,SP)
+        HS = Hinter_agent.hint(E,Summ,convo,None,SP)
         log("HS =")
-        for x in HS : log(x)
+        for x in HS : log("-"*10 + "\n" + x)
         send("",HS[lev],convo)
         S = ask(convo)
         LE = LEPredictor_agent.predict_Learning_Events(S,Summ,convo,None,None)
@@ -109,7 +113,7 @@ def Teach(
             clar = Clarifier_agent.clarification(g,E,new_Summ,LE,convo,S,SP)
             send("",clar,convo,S)
             S = ask(convo)
-            new_Summ = Summariser_agent.summarise(S,convo,Summ)
+            new_Summ = Summariser_agent.summarise(S,convo,new_Summ)
             log("new_Summ= ")
             log(new_Summ)
             SPC,SP =PlanPredictor_agent.predict_plan(g,E,new_Summ,LE,convo,S)
@@ -117,9 +121,10 @@ def Teach(
             log("SP=\n"+SP)
         if more:
             updated_convo = convo + ["Student : " + S]
-            HS = Hinter_agent.hint(E,new_Summ,updated_convo,g,SP)
+            Summ = new_Summ
+            HS = Hinter_agent.hint(E,Summ,updated_convo,None,SP)
             log("HS =")
-            for x in HS : log(x)
+            for x in HS : log("-"*10 + "\n" + x)
         if SPC == 1: # Again predict the plan that we need to take for teaching
             prereqs = Sequencer_agent.prerequisites(g,material,convo,new_Summ,S,SP,prereqs)
             log("prereqs=")
@@ -142,14 +147,16 @@ def Teach(
         if ET < 0: continue
         updated_convo = convo + ["Student : " + S]
         if ET > 0: HS = ESF_agent.generate_ESF_sequence(Summ,convo,S,LE,SED,None)
-        elif ET ==0 :HS = Hinter_agent.hint(E,new_Summ,updated_convo,g,SP)
+        elif ET ==0 :HS = Hinter_agent.hint(E,new_Summ,updated_convo,None,SP)
         convo = updated_convo
         lev -= 1
         log("HS=")
-        for x in HS: log(x)
+        for x in HS: log("-"*10 + "\n" + x)
         # From this point onwards, the only focus will be on correcting the error
         # or helping the student start. Nothing that the student says in this section will be evaluated
         direct_ans = skip_E = False
+        old_Summ = Summ
+        Summ = new_Summ
         while (lev > 0 or direct_ans) and (not skip_E):
             log("lev="+str(lev))
             if direct_ans:
@@ -172,7 +179,7 @@ def Teach(
                 # start_new_thread(new_goal,mastery,depth,convo)
                 # skip_E = True # after teaching new goal
             else:
-                good = SEC().is_correct(S,Summ,convo,E,None)
+                good = SEC().is_correct(S,old_Summ,convo,E,None)
                 log("good=",str(good))
                 Summ = new_Summ
                 if good is None: # partial application
@@ -182,9 +189,9 @@ def Teach(
                     Summ = Summariser_agent.summarise(S,convo,Summ)
                     log("Summ= ")
                     log(Summ)
-                    HS = Hinter_agent.hint(E,Summ,convo) # re-formulate hints baed on new conversation
+                    HS = Hinter_agent.hint(E,Summ,convo,None,SP) # re-formulate hints baed on new conversation
                     log("HS =")
-                    for x in HS : log(x)
+                    for x in HS : log("-"*10 + "\n" + x)
                 elif good: skip_E = True # student got it
                 else: lev -= 1 # easier hint
                 convo.append("Student : " + S)

@@ -1,0 +1,30 @@
+You are an expert evaluator.
+You will be given :
+1. a conversation between a tutor and a student, ending with the tutor as last speaker.
+2. the summary of the conversation upto a certain point describing prepositions and hypothesis by the student.
+3. the next statement or question by the student.
+5. The Final Goal that the student needs to achieve.
+Your job is see whether the student has already reached the goal.
+
+```
+Conversation: 
+Tutor : What is remainder of 5 to the power of 107 when divided by 107 ? How would you start on this ?
+Student : This question is related to remainders.. so we can apply theorems like Fermart's little theorem. It says that \(x^{p-1} \cong 1 \mod p\).. x must be 5 .. but what is p?.
+Tutor : Good. Notice that 107 is a prime.
+
+Summary:
+1. Student recognises that the problem might involve using number theoretic theorems like Fermart's little theorem. [S1]
+2. Fermart's theorem says that \(x^{p-1} \cong 1 \mod p\) [S1].
+3. x in Fermart's theorem is 5 in this case [S1].
+4. Student doesn't know what is p (in Fermart's theorem) in this case.
+
+Student's next step :
+Ok, it should be 1 then.
+
+Main Goal : 
+Remainder of 5 to power of 107 when divided by 107
+```
+
+Since the student made an error in his latest message, and has thus not reached the final goal, we will give a negative response , namely "no".
+
+IMPORTANT : Return only "no" or "yes" (without quotes) to specify correct or incorrect. No other text.

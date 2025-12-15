@@ -151,9 +151,9 @@ class SEC(SummConvoAgent):
         or still contains any of the misconceptions `possible_MC`
         """
         prompt = self.format_convo_summ(convo,Summ)
-        prompt += "\nStudent's new response:\n" + S
+        if S : prompt += "\nStudent's new response:\n" + S
         # prompt += "\nPossible Learning Events:\n" + "\n".join(LE)
-        prompt += "\nKnowledge Concept\n" + str(E)
+        if E : prompt += "\nKnowledge Concept\n" + str(E)
         if possible_MC is not None: 
             prompt += "\nMisconceptions:\n" + "\n".join(
                 ["- " + str(x) for x in possible_MC])
