@@ -37,3 +37,5 @@ The filtered learning events will be:
 ```
 
 This is because other Learning Events cannot be inferred directly from the conversation. 
+I repeat, any learning events that are yet to happen, and thus cannot be inferred MUST be removed.
+Only keep learning events that might have happened between the steps that the student took and are plausible.

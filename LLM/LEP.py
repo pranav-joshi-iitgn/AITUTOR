@@ -48,6 +48,7 @@ class LEFilter(SummConvoAgent):
         """
         Given learning events that occured for a step S, filters out those that have already occured before in the conversation `convo` till step S, summaried as `Summ`.
         """
+        if len(LE) == 0 : return LE
         prompt = self.format_convo_summ(convo,Summ)
         prompt += "\nStudent's new response:\n" + S
         prompt += "\nLearning Events:\n" + "\n".join(LE)
@@ -82,8 +83,16 @@ class ErrorCatcher(SummConvoAgent):
         return error_code,error_desc
 
 class ESF(SummConvoAgent):
-    def __init__(self,model="gpt-oss",system_prompt="file:ESF.txt"):
+    def __init__(self,model="gpt-oss",system_prompt="file:ESF.txt",system_prompt2="file:ESF2.txt"):
+        if system_prompt2.startswith("file"):
+            with open(system_prompt2.split(":",1)[1],'r') as f:
+                system_prompt2 = f.read()
         super().__init__(system_prompt,model)
+        self.sysprompt2 = system_prompt2
+        self.FD = []
+        for x in ["R_B","R_R","R_T","R_F","R_P","R_M"]:
+            with open(f"ESF/{x}.txt",'r') as f:
+                self.FD.append(f.read())
 
     def generate_ESF_sequence(self,
         Summ:str, # before Step S
@@ -134,6 +143,33 @@ class ESF(SummConvoAgent):
         HS = [x for x in HS if x.strip()]
         assert len(HS) == 6, f"Incorrect HS:\n{HS}"
         return HS
+
+
+    def generate_ESF(self,
+        Summ:str, # before Step S
+        convo:list[str],
+        S:str, # faulty step by student
+        LE:list[str], # possible learning events
+        ED:str, # Error description
+        possible_MC:(list|None)=None, # Possible misconceptions
+        level=0, # The level of feedback
+        ) -> str:
+        """ 
+        Generates Error-Specific-Feedback (ESF) at different levels:
+        - Clarification R_B goes in detail about what mistake the student might have made, as well as presents LE to the student
+        - Socratic question R_R : Questions the student by presenting a counter-example, or by finding prepositions A,B from which falsity of step S follows, and deriving not-S (nor not-C where C is a false preposition). 
+        - Socratic nudge R_T : Just presents a counter-example or finds prepositions A,B that student made earlier from which the falsity of the step S follows.
+        - Pointing hint R_P : asks student to check for a specific kind of mistake
+        - Pump R_M : Just asks student to check for any mistakes
+        returns a hint 
+        """
+
+        prompt = self.format_convo_summ(convo,Summ)
+        prompt += "\nStudent's new response:\n" + S
+        prompt += "\nPossible Learning Events:\n" + "\n".join(LE)
+        prompt += "\nPossible Error:\n" + ED
+        prompt += "\nFeedback Description : " + self.FD[level]
+        return self.generate(prompt,self.sysprompt2)
 
 class SEC(SummConvoAgent):
     def __init__(self,model="gpt-oss",system_prompt="file:SEC.txt"):

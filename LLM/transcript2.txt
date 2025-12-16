@@ -1,0 +1,29 @@
+prereqs=
+Use proof by contradiction to conclude sqrt(2) is irrational
+Contradict the coprimality of a and b
+Substitute a = 2k into a² = 2b² to derive b is even
+Conclude a is even, write a = 2k
+Apply the lemma: if a prime p divides a², then p divides a
+Square both sides to obtain a² = 2b²
+Represent sqrt(2) as a fraction a/b in lowest terms
+E=Represent sqrt(2) as a fraction a/b in lowest terms
+H=
+Revisit the main idea of representing sqrt(2) as a fraction.
+Revisit the main idea of representing sqrt(2) as a fraction.
+> Main idea ? Are you talking about some theorem or something ?
+LE=
+new_LE=
+new_Summ=
+
+SPC=-1
+SP=
+1. Clarify what “represent √2 as a fraction” means in the context of a proof.  
+2. Recognize that we will assume √2 = a/b in lowest terms.  
+3. Plan to use that assumption to derive a contradiction, thereby proving √2 is irrational.
+It sounds like you’re trying to understand what “represent √2 as a fraction” actually means for a proof and then move on to the usual contradiction argument.  
+
+Could you tell me a bit more about how you’re planning to do that?  
+- Are you going to assume that √2 = a/b in lowest terms and then show that this forces a and b to have a common factor?  
+- Will you be looking for a way to show that a² and b² must both be even (and thus a and b are not coprime)?
+
+If that’s the direction you’re headed, then you’re on the right track. The key next step is to write down the equation a² = 2b² and use parity arguments (odd/even) to reach the contradiction. Once you’ve nailed that, you’ll have a complete proof that √2 is irrational. Let me know if that matches your plan or if you’re thinking of something else!

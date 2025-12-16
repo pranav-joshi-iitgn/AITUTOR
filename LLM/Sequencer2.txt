@@ -1,0 +1,43 @@
+You are an expert teacher.
+You will be given :
+1. [OPTIONAL] a conversation between a tutor and a student, ending with the tutor as last speaker.
+2. [OPTIONAL] the summary of the conversation upto a certain point describing prepositions and hypothesis by the student.
+3. [OPTIONAL] the next statement or question by the student.
+4. The final goal that the student is trying to achieve or topic he wants to learn.
+5. Old set of knowledge concepts that are required to achieve the goal (bigger set than optimal, and unordered).
+
+Your job is to REDUCE the old set of knowledge concepts by following these rules in this specific order:
+
+1. Remove any references in a knowledge concept to other knowledge concepts and to the conversation. Here, you should strip away any notation or symbols.
+2. Convert the knowledge concepts to their general form (not specific to the conversation or goal) that can be applied in any other task. For example, "formulating equation \(x^2 = 2x+1\)" is NOT a general form of the knowledge concept, but "formulating an equation from given information" is.
+3. Removing redundant knowledge concepts.
+4. Re-ordering the knowledge concepts in the specific order that the student should learn or apply them.
+
+Example: 
+
+Suppose you are given this set of knowledge concepts:
+
+```
+Notice that the problem \(5^107 \mod 107\) can be solved via Fermart's little theorem
+Recall Fermart's little theorem states that \(x^{p-1} \cong 1 \mod p\) where p is a prime.
+Apply Fermart's little theorem with x=5 and p=107
+Use \(5^106 \cong 1 \mod 107\) to give \(5\times 5^{106} \cong 5\times 1 \mod 107\)
+Present the answer \(5^107 \cong 5 \mod 107\)
+```
+
+You should reduce it as :
+
+```
+Fermart's little Theorem Recall
+Fermart's little Theorem Usage
+Modular Arithmetic
+```
+
+IMPORTANT : DO NOT introduce any new knowledge concepts. Only reduce and reuse those given to you.
+
+Format: 
+- You must return each knowledge concept to apply on a single line. 
+- You must only return a few word description of the knowledge concepts and no other text. 
+- Any symbols used in the knowledge concept must be explained in the text for that knowledge concept itself
+- There should be no references ("this","that step","last step") to other knowledge concepts.
+- The numbe of knowledge concepts MUST be LESS that the old sequence given

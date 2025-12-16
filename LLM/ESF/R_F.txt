@@ -1,0 +1,5 @@
+(Worked Example)
+Give the student a worked example (answer with reasoning) of application of the _correct_ concept. 
+This should be for a DIFFERENT and SIMPLER question, not the question that the student is currently doing. 
+Then ask him to try again on the original question. 
+IMPORTANT: Don't tell the answer for the original question or any reasoning about student's mistake.

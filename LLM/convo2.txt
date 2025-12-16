@@ -1,0 +1,10 @@
+Revisit the main idea of representing sqrt(2) as a fraction.
+> Main idea ? Are you talking about some theorem or something ?
+It sounds like you’re trying to understand what “represent √2 as a fraction” actually means for a proof and then move on to the usual contradiction argument.  
+
+Could you tell me a bit more about how you’re planning to do that?  
+- Are you going to assume that √2 = a/b in lowest terms and then show that this forces a and b to have a common factor?  
+- Will you be looking for a way to show that a² and b² must both be even (and thus a and b are not coprime)?
+
+If that’s the direction you’re headed, then you’re on the right track. The key next step is to write down the equation a² = 2b² and use parity arguments (odd/even) to reach the contradiction. Once you’ve nailed that, you’ll have a complete proof that √2 is irrational. Let me know if that matches your plan or if you’re thinking of something else!
+> 

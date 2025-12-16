@@ -36,8 +36,9 @@ A possible sequence of learning events can be:
 - Formula Result interpretation : The question asks for remainder, which is 5 < 107.
 ```
 
-Give most probable such sequences, separated by an empty line. Make sure that these sequences are actually compatible with what the student said. 
-DO NOT make up hypothetical scenarios on how the student _could_ have answeres. Only try to predict how the student _did_ answer.
+Make sure that the sequence is actually compatible with what the student said. 
+DO NOT make up hypothetical scenarios on how the student _could_ have answered. 
+Only try to predict how the student _did_ answer.
 
 Example :
 
@@ -56,5 +57,7 @@ Instead, you will say :
 ```
 - Student saw unfamiliar or unexplained notation and asked for clarification
 ```
+
+IMPORTANT: Any learning events that are yet to happen, and thus cannot be inferred MUST be removed. Only keep learning events that might have happened between the steps that the student took and are plausible.
 
 Return the sub-steps or learning events one on each line. For each learning event, make sure there are no line-breaks.

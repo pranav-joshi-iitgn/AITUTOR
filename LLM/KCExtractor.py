@@ -63,17 +63,24 @@ class KCExtractor(Agent):
 
 
 class Sequencer(SummConvoAgent):
-    def __init__(self,model="gpt-oss",system_prompt='file:Sequencer.txt'):
+    def __init__(self,model="gpt-oss",system_prompt='file:Sequencer.txt',system_prompt2="file:Sequencer2.txt"):
+        if system_prompt2.startswith("file"):
+            with open(system_prompt2.split(":",1)[1],'r') as f :
+                system_prompt2 = f.read()
         super().__init__(system_prompt,model)
+        self.sysprompt2 = system_prompt2
     def prerequisites(self,g,material=None,convo=None,Summ=None,S=None,SP=None,prereqs=None) -> list:
         if material: prompt = "Supporting Material:\n" + material + "\n\n\n"
         else: prompt = ""
         if convo is not None : prompt += self.format_convo_summ(convo,Summ) + "\n\n"
         if S: prompt += "Student's next message:\n" + S + "\n\n"
         prompt += "Final goal:\n" + g + "\n\n"
+        og_prompt = prompt
         if SP : prompt += f"Student's plan:\n{SP}\n\n"
         if prereqs: prompt += "Knowledge Concepts Required:\n" + "\n".join((str(x) for x in prereqs))
         L = self.generate(prompt).strip().strip("\n")
+        prompt = og_prompt + "Old sequence:\n" + L
+        L = self.generate(og_prompt,self.sysprompt2)
         L = [x.strip() for x in L.split('\n') if x.strip()]
         L = L[::-1]
         return L

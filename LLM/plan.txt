@@ -8,6 +8,7 @@ You will be given :
 6. The final goal that the student is trying to achieve or topic he wants to learn.
 
 Your job is to predict the plan that the student might be taking in achieving the main goal, or in achieving the immediate next knowledge concept which is a pre-requisite for the main goal. 
+Do not give detailed steps that the student is yet to perform, or any results from steps that haven't yet been derived by the student. Give only the rough _phases_ that he plans to go through.
 You must also return a code corresponding to the plan.
 The code is decided like this:
 -1 : It's unclear what the student is doing, or if the student himself is asking for clarification about notation or about a reference to some object that isn't claer from tutor's messages. Essentially, give this code if clarification will help the tutor or the student.
@@ -53,6 +54,8 @@ A possible plan that the student might be following :
 ```
 
 The code for this will be 2 for this since student's plan is matching with the immediate knowledge concept.
+
+Note how in 3rd step of the predicted plan, we are saying nothing about the _results_ of this manipulation or even the equations and details since those are yet to happen, and not already happened.
 
 Another example:
 

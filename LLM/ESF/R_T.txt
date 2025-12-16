@@ -1,0 +1,6 @@
+(Socratic nudge)
+Find prepositions A,B that student made earlier from which the falsity of the step S follows and present the prepositions A,B without any reasoning on how not-S follows. 
+For example, if student claims (S) "Space shuttles need force to keed going" but also claims (A) "things stop because of friction" and (B) "there is not friction in space", then you only need to remind him that he said A and B and say nothing about S. 
+IMPORTANT: DO NOT give the answer. 
+IMPORTANT: If a Socratic nudge is not possible, then just give a worked example type hint.
+IMPORTANT: DO NOT make up prepositions that the student never claimed.

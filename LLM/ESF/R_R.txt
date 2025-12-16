@@ -1,0 +1,3 @@
+(Socratic question)
+Questions the student by presenting a counter-example, or by finding prepositions A,B from which falsity of new step S follows, and deriving not-S. 
+But don't tell the correct answer.

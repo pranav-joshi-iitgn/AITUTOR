@@ -1,0 +1,9 @@
+(Pump)
+Just ask student to check for any mistakes, not going into specifics.
+For example, if the student rewrites the expression \(x^2-2x+1\) as \((x+1)^2\), then
+DO NOT say "you have made a mistake and the correct manipulation is \((x-1)^2\),
+DO NOT say "check whether you applied the algebraic identities correctly for \(x^2-2x+1\),
+DO NOT say "check whether you did your algebraic manipulation correctly.
+Instead, say something like "Check for any small mistakes that you might have done".
+As another example, suppose the student applies Darwin's natural selection incorrectly to state that "the most physically powerful and athletic species will always survive", you should say:
+"Just check for any inconsistencies in your interpretation of what natural selection and what is written".

@@ -53,7 +53,7 @@ class Hinter(Agent):
         assert len(HS) == 6 , f"Wrong number of hints: \n" + '\n'.join(HS)
         return HS
 
-    def hint(self,E:str,Summ=None,convo=None,g=None,SP=None) -> list[str]:
+    def hint_seq(self,E:str,Summ=None,convo=None,g=None,SP=None) -> list[str]:
         """
         Summ is the summary of the student's work on a problem. The summary also refers to the conversation `convo` sometimed.
         E is the KC to teach. 
@@ -84,6 +84,33 @@ class Hinter(Agent):
             res = self.generate(prompt,self.sysprompt3)
             L.append(res)
         return L
+
+    def hint(self,E:str,Summ=None,convo=None,g=None,SP=None,level=0) -> str:
+        """
+        Summ is the summary of the student's work on a problem. The summary also refers to the conversation `convo` sometimed.
+        E is the KC to teach. 
+        Generates the bottom out hint R_B based on Summ
+        Generates reasoning hint R_R,
+        Generates the teaching hint R_T, 
+        the prompting (fill in the blank) hint R_F,
+        ,pointing hint R_P
+        ,and the pump R_M
+        returns hint sequence [R_B,R_R,R_T,R_F,R_P,R_M]
+        """
+        if convo is not None:
+            self.turn = 0
+            for msg in convo: 
+                if not msg.strip():continue
+                self.add_convo_message(msg.strip())
+        if Summ is not None: self.Summ = Summ
+        prompt = ""
+        if self.convo: prompt += "\nConversation:\n" + "\n".join(self.convo)
+        if self.Summ: prompt += "\n\nSummary:\n" + self.Summ
+        prompt += "\n\nTarget Knowlege Concept to teach:\n" + E
+        if g: prompt += "\n\nMain goal:\n" + g
+        if SP: prompt += "\n\nPossible plan that student is following:\n" + SP
+        prompt += "\n\nHint Description:\n" + self.hint_desc[level]
+        return self.generate(prompt,self.sysprompt3)
 
     def add_convo_message(self,msg:str):
         role, msg = msg.split(":",1)

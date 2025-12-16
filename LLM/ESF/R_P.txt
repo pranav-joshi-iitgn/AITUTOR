@@ -1,0 +1,5 @@
+(Pointing hint)
+Ask student to check for a specific kind of mistake, but don't tell the correct answer or what is wrong.
+Say things like "check whether the signs were dealt with correctly". 
+For example, if the student rewrites the equation \(x^2-x+1=0\) as \(x^2-2x+1=0\) the you can point to the mistake as "make sure you copied all equations correctly; namely that all coefficients and powers are correct and all terms are included".
+IMPORTANT: Do not give the answer or directly describe the mistake. Only point to the part of the step/question/goal from which the mistake can be caught by the student.

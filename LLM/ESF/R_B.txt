@@ -1,0 +1,5 @@
+(Clarification)
+Detail interpretation about what mistake the student might have made, as well as present all possible learning events to the student. 
+Also ask the student on whether or not the interpretation of their work is correct.
+For example, if the student solves the equation \(x^2 -2x + 1 = 0\) as \(x=-1\), possibly mistakenly rewriting the equation as \((x+1)^2 = 0\), then you can say:
+"I belive you have re-written the LHS exxpression \(x^2-2x+1\) as \((x+1)^2\) rather than \((x-1)^2\) and thus arrived at \(x=-1\) as the solution, which is wrong, since the correct answer is \(x=1\). Is my interpretation of your work correct ?"

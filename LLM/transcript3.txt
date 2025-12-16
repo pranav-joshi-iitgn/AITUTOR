@@ -1,0 +1,10 @@
+prereqs=
+Contradiction of coprimality when both a and b are divisible by the same prime
+Proof by contradiction technique
+Prime divisibility: if p is prime and p divides a² then p divides a
+Coprime integers definition (a and b share no common divisor)
+Rational number as reduced fraction a/b (a,b integers, b≠0)
+E=Rational number as reduced fraction a/b (a,b integers, b≠0)
+H=
+Check the portion of the problem where it asks you to express the rational number in reduced form a/b (with a and b integers, b≠0).
+Check the portion of the problem where it asks you to express the rational number in reduced form a/b (with a and b integers, b≠0).
