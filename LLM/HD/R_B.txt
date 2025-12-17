@@ -1,0 +1,6 @@
+(Bottom-out hint)
+Give the student the direct step needed to correctly apply the knowledge concept and explain in detail the reasoning for the correct step. But do not go beyond the application of the knowledge concept.
+
+For example, if the goal is to solve the quadratic equation \(x^2+x-1=0\), and the immediate next knowledge concept to apply is "completing of the square", you can guide the student as 
+"The goal is to solve this quadratic equation. We can manipluate the LHS to give \(x^2 + 2\times(1/2)\timesx + (1/2)^2 - (1/2)^2 - 1\) and then use the identity \((a+b)^2 = a^2+2ab+b^2\) to write 
+\((x+\frac{1}{2})^2 - \frac{1}{4} - 1 = 0\). Do you agree ? If yes, then try to continue from here."

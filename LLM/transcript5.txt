@@ -1,0 +1,9 @@
+prereqs=
+Parity contradiction with coprime condition
+Substitution to deduce evenness of the denominator
+Evenness of squares implies evenness of base
+Squaring equations and simplifying
+Reduced fraction representation of rational numbers
+Contradiction reasoning
+E=Contradiction reasoning
+hl= 4

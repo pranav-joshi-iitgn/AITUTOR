@@ -1,5 +1,5 @@
 from GetInstr import InstructionCatcher
-from Hinter import Hinter
+from Hinter import Hinter, HintEvaluator
 from KCExtractor import KCExtractor, Sequencer
 from summarisation import Summariser
 from LEP import ErrorCatcher, ESF, LEFilter, LEPredictor, SEC, PlanPredictor, Clarifier
@@ -16,6 +16,7 @@ SEC_agent = SEC()
 PlanPredictor_agent = PlanPredictor()
 Clarifier_agent = Clarifier()
 Sequencer_agent = Sequencer()
+HintEvaluator_agent = HintEvaluator()
 
 MAX_DEPTH = 3
 MASTERY_THRESH = None
@@ -31,7 +32,7 @@ def send(feedback_article:str,R:str,convo:list[str],S=None):
     log(R)
     convo.append("Tutor : " + R)
 
-def ask(convo:list[str],prompt="> ") -> str:
+def ask(convo:list[str],prompt=("-"*10 + "\n▶ ")) -> str:
     S = input(prompt)
     log("> " + S)
     return S
@@ -71,7 +72,15 @@ def Teach(
     # log("prereqs=")
     # for x in prereqs: log(x)
     # prereqs = [g] # TODO: Need to figure out what tf AutoTutor was doing. 
-    prereqs = Sequencer_agent.prerequisites(g,material)
+    prereqs = Sequencer_agent.prerequisites(g,material,stage=1)
+    log(f"prereqs (stage 1) =")
+    for x in prereqs: log(x)
+    for stage in [2,3,4]:
+        prereqs = Sequencer_agent.prerequisites(g,prereqs=prereqs,stage=stage)
+        log(f"prereqs (stage {stage}) =")
+        for x in prereqs: log(x)
+    if not prereqs: prereqs = [g]
+    else: prereqs = prereqs[::-1]
     log("prereqs=")
     for x in prereqs: log(x)
     SP = None
@@ -90,11 +99,19 @@ def Teach(
         #     start_new_thread(g_new,mastery,depth+1,convo)
         #     continue # after teaching g_new
         # HS = Hinter_agent.hint_seq(E,Summ,convo,None,SP)
-        H = Hinter_agent.hint(E,Summ,convo,None,SP,lev)
+        for hl in range(lev,0,-1):
+            log("hl=",str(hl))
+            H = Hinter_agent.hint(E,Summ,convo,None,SP,hl)
+            log("H="+H)
+            good = HintEvaluator_agent.evaluate(g,H,convo)
+            log("good="+str(good))
+            if good:break
+        else: H = Hinter_agent.hint(E,Summ,convo,None,SP,0)
+
         # log("HS =")
         # for x in HS : log("-"*10 + "\n" + x)
         # send("",HS[lev],convo)
-        log("H=\n"+H)
+        # log("H=\n"+H)
         send("",H,convo)
         S = ask(convo)
         LE = LEPredictor_agent.predict_Learning_Events(S,Summ,convo,None,None)
@@ -129,7 +146,7 @@ def Teach(
             # log("HS =")
             # for x in HS : log("-"*10 + "\n" + x)
         if SPC == 1: # Again predict the plan that we need to take for teaching
-            prereqs = Sequencer_agent.prerequisites(g,material,convo,new_Summ,S,SP,prereqs)
+            prereqs = Sequencer_agent.prerequisites(g,material,convo,new_Summ,S,SP,prereqs[::-1])
             log("prereqs=")
             for x in prereqs: log(x)
             send("","It seems you are doing something different than what I thought you would. I'll try to follow the path you are taking. Let's start over.",convo,S)

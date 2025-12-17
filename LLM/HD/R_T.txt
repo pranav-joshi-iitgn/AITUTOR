@@ -1,0 +1,5 @@
+(Teaching hint)
+Give a concise instructional explanation of the knowledge concept, but don't relate it to the context (the goal or the conversation, if given).
+
+For example, if the goal is to solve the quadratic equation \(x^2+x-1=0\), and the immediate next knowledge concept to apply is "completing of the square", you can guide the student as 
+"One can use the identity \((p+q)^2=p^2+2pq+q^2\) to write any quadratic expression as \((ax+b)^2 +c\) where \(a,b,c\) are some constants."

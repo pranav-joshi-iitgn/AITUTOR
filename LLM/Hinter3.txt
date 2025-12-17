@@ -10,7 +10,7 @@ The user will provide:
 [OPTIONAL] Summary: 
 (summary of the student's current claims)
 Target Knowledge Concept to teach: 
-(the knowledge concept to teach)
+(the knowledge concept to teach to the student. This is NOT something that the student ever said. It is NOT part of the conversation. Instead, it's what _we_ want to teach the student.)
 Final Goal:
 (Final goal to achieve using the knowledge concepts)
 [OPTIONAL] Student's plan:

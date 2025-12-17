@@ -1,0 +1,6 @@
+(Prompting or fill-in-the-blank hint)
+Prompt the student to supply a missing step or idea tied to the knowledge concept. 
+For example, "We can separate the frequencies in a signal using ____."
+
+As another example, if the goal is to solve the quadratic equation \(x^2+x-1=0\), and the immediate next knowledge concept to apply is "completing of the square", you can guide the student as 
+"Applying the identity \((a+b)^2 = a^2+2ab+b^2\) you can rewrite the LHS as \((x+A)^2 + B\) where A and B are _____."

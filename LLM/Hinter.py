@@ -13,14 +13,18 @@ class Hinter(Agent):
         self.sysprompt3 = system_prompt3
         self.turn = 0
         self.Summ = ""
-        self.hint_desc = [
-            "R_B: Bottom-out hint. Give the student the direct step needed to correctly apply the KC and explain in detail the reasoning for the correct step.",
-            "R_R: Reasoning hint. Explain the key idea or logic behind the KC and why it might be applicable here.",
-            "R_T: Teaching hint. Give a concise instructional explanation of the KC, but don't relate it to the context.",
-            "R_F: Prompting or fill-in-the-blank hint. Prompt the student to supply a missing step or idea tied to the KC. For example, \"We can separate the frequencies in a signal using ____.\"",
-            "R_P: Pointing hint. Direct the student to the specific part of their earlier reasoning or the question/task that relates to the KC, but don't tell them what to do. For example, \"We are given a signal that seems to be composed of multiple frequencies\"",
-            "R_M: Pump. Give a gentle nudge that encourages further thinking about the KC without giving any other information or directing attention to anything. For example, \"Let's look at the big picture again and retry." or "Just take a guess\".",
-        ]
+        # self.hint_desc = [
+        #     "R_B: Bottom-out hint. Give the student the direct step needed to correctly apply the KC and explain in detail the reasoning for the correct step.",
+        #     "R_R: Reasoning hint. Explain the key idea or logic behind the KC and why it might be applicable here.",
+        #     "R_T: Teaching hint. Give a concise instructional explanation of the KC, but don't relate it to the context.",
+        #     "R_F: Prompting or fill-in-the-blank hint. Prompt the student to supply a missing step or idea tied to the KC. For example, \"We can separate the frequencies in a signal using ____.\"",
+        #     "R_P: Pointing hint. Direct the student to the specific part of their earlier reasoning or the question/task that relates to the KC, but don't tell them what to do. For example, \"We are given a signal that seems to be composed of multiple frequencies\"",
+        #     "R_M: Pump. Give a gentle nudge that encourages further thinking about the KC without giving any other information or directing attention to anything. For example, \"Let's look at the big picture again and retry." or "Just take a guess\".",
+        # ]
+        self.hint_desc = []
+        for ht in ["R_B","R_R","R_T","R_F","R_P","R_M"]:
+            with open(f"HD/{ht}.txt",'r') as f :
+                self.hint_desc.append(f.read())
         
     def hint_old(self,E:str,Summ=None,convo=None,g=None,SP=None) -> list[str]:
         """
@@ -95,7 +99,6 @@ class Hinter(Agent):
         the prompting (fill in the blank) hint R_F,
         ,pointing hint R_P
         ,and the pump R_M
-        returns hint sequence [R_B,R_R,R_T,R_F,R_P,R_M]
         """
         if convo is not None:
             self.turn = 0
@@ -119,7 +122,30 @@ class Hinter(Agent):
         assert role in ["Tutor","Student"], f"unknown role {role}"
         self.convo.append(f"{self.turn}: {role} : {msg.strip()}")
 
+class HintEvaluator(Agent):
+    def __init__(self,model="gpt-oss",system_prompt = "file:HintEval.txt"):
+        super().__init__(model,system_prompt)
+    def evaluate(self,g:str,H:str,convo:list[str]=None):
+        """
+        Checks if the hint H is conversationally correct
+        """
+        self.convo = []
+        self.speak(g)
+        if convo is not None:
+            for msg in convo: 
+                if not msg.strip():continue
+                if msg.lower().startswith("student"):
+                    self.speak(msg.split(":",1)[1].strip())
+                elif msg.lower().startswith("tutor"):
+                    self.hear(msg.split(":",1)[1].strip())
+        self.hear(H)
+        res = self.speak()
+        return (res.lower() in ["true","t",'y','yes','1','ok','good'])
+
+    
+
 if __name__ == "__main__":
+    g = "What is the derivative of $x^12+3x$"
     convo = [
         "Tutor : What is the derivative of $x^12+3x$",
         "Student : It is $11x^11 + 3$",
@@ -127,9 +153,10 @@ if __name__ == "__main__":
         "Student : It is nx^{n-1}",
     ]
     Summ = "1. Derivative of x^12 + 3x is 11x^11+3 [S1].\n2. Derivative of x^n is nx^{n-1} [S2]"
+    convo = []
+    Summ = None
     E = "Power rule in differentiation"
-    agent = Hinter()
-    HS = agent.hint(E,Summ,convo)
-    for x in HS: 
-        print("-"*10)
-        print(x)
+    H = Hinter().hint(E,Summ,convo,g,level=4)
+    print("Hint:",H)
+    res = HintEvaluator().evaluate(g,H,convo)
+    print("Hint Evaluator:",res)

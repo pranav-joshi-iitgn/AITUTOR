@@ -1,0 +1,49 @@
+prereqs=
+Contradiction with coprimality
+Using prime divisibility to deduce factor divisibility
+Removing a square root by squaring both sides
+Expressing a rational number as a reduced fraction
+Contradiction proof
+E=Contradiction proof
+hl= 4
+H=Remember the step where you **assume the statement is true**. In that part you deduced the existence of an element with property P, and later in the same argument you showed that such an element cannot exist. That pair of observations is exactly the kind of situation you would exploit in a contradiction proof.
+good=False
+hl= 3
+H=**Hint (prompt/blank)**  
+Assume for contradiction that the proposition you want to prove is false.  
+From this assumption, try to derive a statement that contradicts one of the given hypotheses or a known fact.  
+For example, fill in the blanks:  
+
+> “Assume that **[negated statement]**.  
+>  Then, using the given conditions, we can show that **[contradictory statement]**, which contradicts **[known fact or hypothesis]**.”
+good=True
+**Hint (prompt/blank)**  
+Assume for contradiction that the proposition you want to prove is false.  
+From this assumption, try to derive a statement that contradicts one of the given hypotheses or a known fact.  
+For example, fill in the blanks:  
+
+> “Assume that **[negated statement]**.  
+>  Then, using the given conditions, we can show that **[contradictory statement]**, which contradicts **[known fact or hypothesis]**.”
+> Ok.. so we will assume that root 2 is rational. Now, from here, we need to show that it leads to a false statement.
+LE=
+new_LE=
+new_Summ=
+- [S2] Assume that √2 is rational.  
+- [S2] We intend to show that this assumption leads to a false statement.
+SPC=2
+SP=
+1. Assume that √2 is rational and write it as a fraction a/b in lowest terms.  
+2. Use the equality 2 = a²/b² to derive a relationship between a and b (e.g., 2b² = a²).  
+3. Deduce from that relationship that a must be even.  
+4. Substitute back to show that b must also be even.  
+5. Conclude that a and b share a common factor, contradicting the assumption that the fraction was in lowest terms.
+ET =-1
+SED = The student correctly initiates a proof by contradiction for the irrationality of √2.
+E=Expressing a rational number as a reduced fraction
+good= False
+hl= 4
+H=Recall the definition of a *reduced* fraction: if a rational number is written as \(\frac{a}{b}\), then the integers \(a\) and \(b\) have no common divisor other than 1.  
+Think about how this fact connects to the step where you derived \(a^{2}=2b^{2}\) from the assumption that \(\sqrt{2}=\frac{a}{b}\).
+good=True
+Recall the definition of a *reduced* fraction: if a rational number is written as \(\frac{a}{b}\), then the integers \(a\) and \(b\) have no common divisor other than 1.  
+Think about how this fact connects to the step where you derived \(a^{2}=2b^{2}\) from the assumption that \(\sqrt{2}=\frac{a}{b}\).

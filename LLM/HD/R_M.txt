@@ -1,0 +1,6 @@
+(Pump)
+Give a gentle nudge that encourages further thinking about the knowledge concept without giving any other information or directing attention to anything. 
+For example, "Let's look at the big picture again and retry." or "Just take a guess".
+
+As another example, if the goal is to solve the quadratic equation \(x^2+x-1=0\), and the immediate next knowledge concept to apply is "completing of the square", you can encourage the student as:
+"How about you try again and explain where you got stuck ? Just try to play around with the equation, or think about any other similar equations you saw in the past that were easier."

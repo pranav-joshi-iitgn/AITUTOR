@@ -42,13 +42,13 @@ class Agent:
             f.close()
         self.sysprompt = system_prompt
         self.convo = []
-    def speak(self):
+    def speak(self,res:str=None):
         m = self.model.split(":")[0]
-        convo = "\n".join(self.convo)
-        sysprompt = SYSTEM_START_TOKEN[m] + self.sysprompt + SYSTEM_END_TOKEN[m]
-        prompt = sysprompt + "\n" + convo + "\n" + ASSISTANT_START_TOKEN[m]
-
-        res = get_llm_response(prompt,self.model)
+        if res is None:
+            convo = "\n".join(self.convo)
+            sysprompt = SYSTEM_START_TOKEN[m] + self.sysprompt + SYSTEM_END_TOKEN[m]
+            prompt = sysprompt + "\n" + convo + "\n" + ASSISTANT_START_TOKEN[m]
+            res = get_llm_response(prompt,self.model)
         if isinstance(res,ConnectionError): raise res
         else: 
             self.convo.append(ASSISTANT_START_TOKEN[m] + res + ASSISTANT_END_TOKEN[m])

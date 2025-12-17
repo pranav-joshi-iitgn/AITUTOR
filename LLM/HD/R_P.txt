@@ -1,0 +1,10 @@
+(Pointing hint)
+Direct the student to the specific part of their earlier reasoning (only if conversation available) OR the question/task (main thing) that relates to the knowledge concept, but don't tell them what to do. 
+For example, "We are given a signal that seems to be composed of multiple frequencies"
+
+As another example, if the goal is to solve the quadratic equation \(x^2+x-1=0\), and the immediate next knowledge concept to apply is "completing of the square", you can guide the student as 
+"This quadratic equation seems to have a linear term. It's easy to solve quadratic equations without such terms, right?"
+
+IMPORTANT: Do not point to steps that the student never took. Do not make any such assumptions either. Any time you want to refer to something that the student did, you MUST quote him/her directly as in the conversation.
+IMPORTANT: It is fine to not refer to the conversation at all and only the main goal. 
+IMPORTANT: Do not point to steps that the student _might_ have done. If you must do say, say it as "If my predictions are right you must have done ____" and then point out the parts.

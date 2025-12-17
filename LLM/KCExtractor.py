@@ -63,13 +63,25 @@ class KCExtractor(Agent):
 
 
 class Sequencer(SummConvoAgent):
-    def __init__(self,model="gpt-oss",system_prompt='file:Sequencer.txt',system_prompt2="file:Sequencer2.txt"):
+    def __init__(self,model="gpt-oss",system_prompt='file:Sequencer.txt',
+        system_prompt2="file:Sequencer2.txt",
+        system_prompt3="file:Sequencer3.txt",
+        system_prompt4="file:Sequencer4.txt"):
         if system_prompt2.startswith("file"):
             with open(system_prompt2.split(":",1)[1],'r') as f :
                 system_prompt2 = f.read()
+        if system_prompt3.startswith("file"):
+            with open(system_prompt3.split(":",1)[1],'r') as f :
+                system_prompt3 = f.read()
+        if system_prompt4.startswith("file"):
+            with open(system_prompt4.split(":",1)[1],'r') as f :
+                system_prompt4 = f.read()
         super().__init__(system_prompt,model)
         self.sysprompt2 = system_prompt2
-    def prerequisites(self,g,material=None,convo=None,Summ=None,S=None,SP=None,prereqs=None) -> list:
+        self.sysprompt3 = system_prompt3
+        self.sysprompt4 = system_prompt4
+
+    def prerequisites(self,g,material=None,convo=None,Summ=None,S=None,SP=None,prereqs=None,stage=None) -> list:
         if material: prompt = "Supporting Material:\n" + material + "\n\n\n"
         else: prompt = ""
         if convo is not None : prompt += self.format_convo_summ(convo,Summ) + "\n\n"
@@ -77,13 +89,36 @@ class Sequencer(SummConvoAgent):
         prompt += "Final goal:\n" + g + "\n\n"
         og_prompt = prompt
         if SP : prompt += f"Student's plan:\n{SP}\n\n"
-        if prereqs: prompt += "Knowledge Concepts Required:\n" + "\n".join((str(x) for x in prereqs))
-        L = self.generate(prompt).strip().strip("\n")
-        prompt = og_prompt + "Old sequence:\n" + L
-        L = self.generate(og_prompt,self.sysprompt2)
-        L = [x.strip() for x in L.split('\n') if x.strip()]
-        L = L[::-1]
-        return L
+        if prereqs: prompt += "Old Sequence of Knowledge Components:\n" + "\n".join((str(x) for x in prereqs))
+
+        if stage ==1 or stage is None:
+            # Main generative step
+            L = self.generate(prompt).strip().strip("\n").strip()
+            if not L : return prereqs
+            else: prereqs=[x.strip() for x in L.split('\n') if x.strip()]
+
+        if stage ==2 or stage is None:
+            # Reductive stage 1
+            prompt = f"Final Goal:\n{g}\n\nOld sequence:\n" + '\n'.join(prereqs)
+            L = self.generate(prompt,self.sysprompt2).strip().strip("\n").strip()
+            if not L : return prereqs
+            else: prereqs=[x.strip() for x in L.split('\n') if x.strip()]
+
+        if stage ==3 or stage is None:
+            # Reductive stage 2
+            prompt = f"Final Goal:\n{g}\n\nOld sequence:\n" + '\n'.join(prereqs)
+            L = self.generate(prompt,self.sysprompt3).strip().strip("\n").strip()
+            if not L : return prereqs
+            else: prereqs=[x.strip() for x in L.split('\n') if x.strip()]
+
+        if stage ==4 or stage is None:
+            # Reductive stage 3
+            prompt = og_prompt + "Old sequence:\n" + "\n".join(prereqs)
+            L = self.generate(prompt,self.sysprompt4).strip().strip("\n").strip()
+            if not L : return prereqs
+            else: prereqs=[x.strip() for x in L.split('\n') if x.strip()]
+
+        return prereqs
 
 
 

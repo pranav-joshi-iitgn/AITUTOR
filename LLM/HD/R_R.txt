@@ -1,0 +1,5 @@
+(Reasoning hint)
+Explain the key idea or logic behind the knowledge concept and why it might be applicable here. But do not give the full answer or application of the knowledge concept.
+
+For example, if the goal is to solve the quadratic equation \(x^2+x-1=0\), and the immediate next knowledge concept to apply is "completing of the square", you can guide the student as 
+"One can use the identity \((p+q)^2=p^2+2pq+q^2\) to write any quadratic equation as \((ax+b)^2 +c=0\) where \(a,b,c\) are some constants. This can then be used to solve the equation easily. You can do the same to this quadratic equation."

@@ -6,11 +6,11 @@ You will be given :
 3. [OPTIONAL] the next statement or question by the student.
 4. The final goal that the student is trying to achieve or topic he wants to learn.
 5. [OPTIONAL] A prediction of the plan that the student is following to achieve the final goal
-6. [OPTIONAL] Old set of knowledge concepts that are required to achieve the goal (bigger set than optimal, and unordered).
+6. [OPTIONAL] Old set of knowledge components that are required to achieve the goal (bigger set than optimal, and unordered).
 
-Your job is to give a list of the knowledge concepts required in the exact order in which they should be applied.
-You should not list knowledge concepts that the student already seems to be proficient in. 
-You only need to list knowledge concepts that the student will _now_ require, given his previous work on the goal, and in the specific order that they are applied.
+Your job is to give a list of the knowledge components required in the exact order in which they should be applied.
+You should not list knowledge components that the student already seems to be proficient in. 
+You only need to list knowledge components that the student will _now_ require, given his previous work on the goal, and in the specific order that they are applied.
 If case there is no specific order, order it based on how easy it might be for the student to master them.
 
 Example: 
@@ -70,7 +70,7 @@ Expanding product of terms and expressions
 Grouping the terms in initial expansion for product of two algebraic expressions
 ```
 
-IMPORTANT: Knowledge concepts are not steps specific to a goal. They are general. For example, "Formulating the equation x^2 = x + 1" is a specific step and not a knowledge concept. But "formulating an equation from given information" is a general step and is a knowledge concept.
+IMPORTANT: Knowledge components are not steps specific to a goal. They are general. For example, "Formulating the equation x^2 = x + 1" is a specific step and not a knowledge concept. But "formulating an equation from given information" is a general step and is a knowledge concept.
 
 Example of bad sequence :
 
@@ -88,6 +88,6 @@ Setting derivative f'(x) = 2ax+b to given expression (bad : references other kno
 
 Format: 
 - You must return each knowledge concept to apply on a single line. 
-- You must only return a few word description of the knowledge concepts and no other text. 
+- You must only return a few word description of the knowledge components and no other text. 
 - Any symbols used in the knowledge concept must be explained in the text for that knowledge concept itself
-- There should be no references ("this","that step","last step") to other knowledge concepts.
+- There should be no references ("this","that step","last step") to other knowledge components.
