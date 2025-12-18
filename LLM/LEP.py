@@ -74,7 +74,7 @@ class ErrorCatcher(SummConvoAgent):
         """
         prompt = self.format_convo_summ(convo,Summ)
         prompt += "\nStudent's new response:\n" + S
-        prompt += "\nPossible Learning Events:\n" + "\n".join(LE)
+        if LE : prompt += "\nPossible Learning Events:\n" + "\n".join(LE)
         error = self.generate(prompt).strip("\n").strip()
         error = error.split("\n")
         assert len(error) == 2, f"Bad formatting:\n{error}"
@@ -115,8 +115,8 @@ class ESF(SummConvoAgent):
 
         prompt = self.format_convo_summ(convo,Summ)
         prompt += "\nStudent's new response:\n" + S
-        prompt += "\nPossible Learning Events:\n" + "\n".join(LE)
-        prompt += "\nPossible Error:\n" + ED
+        if LE : prompt += "\nPossible Learning Events:\n" + "\n".join(LE)
+        if ED : prompt += "\nPossible Error:\n" + ED
         HS_0 = HS = self.generate(prompt)
 
         try:
@@ -163,11 +163,11 @@ class ESF(SummConvoAgent):
         - Pump R_M : Just asks student to check for any mistakes
         returns a hint 
         """
-
+        
         prompt = self.format_convo_summ(convo,Summ)
-        prompt += "\nStudent's new response:\n" + S
-        prompt += "\nPossible Learning Events:\n" + "\n".join(LE)
-        prompt += "\nPossible Error:\n" + ED
+        if S : prompt += "\nStudent's new response:\n" + S
+        if LE : prompt += "\nPossible Learning Events:\n" + "\n".join(LE)
+        if ED : prompt += "\nPossible Error:\n" + ED
         prompt += "\nFeedback Description : " + self.FD[level]
         return self.generate(prompt,self.sysprompt2)
 
@@ -195,7 +195,7 @@ class SEC(SummConvoAgent):
                 ["- " + str(x) for x in possible_MC])
         good = self.generate(prompt).strip("\n").strip()
         if good.lower() in ["false","no","n"]:return False
-        elif good.lower() == ["true","yes","y"]:return True
+        elif good.lower() in ["true","yes","y"]:return True
         elif good.lower() in["partial","incomplete","almost"]:return None
         return bool(int(good))
 
@@ -204,8 +204,8 @@ class PlanPredictor(FullStateAgent):
         super().__init__(model,system_prompt)
     def predict_plan(self,g,E,new_Summ, LE, convo, S,ED = None,possible_MC=None) -> str:
         prompt = self.format_convo_summ(S,convo,new_Summ,LE,ED,possible_MC)
-        prompt += "Knowledge Concept:\n" + E
-        prompt += "Main Goal:\n" + g
+        if E : prompt += "\n\nKnowledge Concept:\n" + E
+        prompt += "\n\nMain Goal:\n" + g
         plan = self.generate(prompt).strip().strip("\n").strip()
         code,plan = plan.split("\n",1)
         code = int(code)

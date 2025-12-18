@@ -32,6 +32,7 @@ Possible learning events:
 
 You must categorise error and return a code for the error according to this categorisation:
 
+-2 : No error made by the student and the tutor is actually incorrect.
 -1 : No error made by student in this step. For the example conversation given, after the final message, the student got the correct answer, so you need to report -1.
 0 : The student is stumped. For example, after the first message by the student in the example discussion, the student is stumped. If that was the next response by the student, you would need to return 0.
 1 : The student is making a silly mistake (a mistake in a step that should be trivial given the complexity of the question), such as wrong algebraic manipulation in a undergraduate level question or arithmetic.

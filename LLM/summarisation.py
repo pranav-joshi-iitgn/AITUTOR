@@ -5,7 +5,7 @@ class Summariser(Agent):
         super().__init__(model,system_prompt)
         self.turn = 0
         self.Summ = ""
-    def summarise(self,S:str,convo:(str|None)=None,Summ:(str|None)=None) -> str:
+    def summarise(self,S:(str|None)=None,convo:(str|None)=None,Summ:(str|None)=None) -> str:
         """
         `convo` is the conversation done till now.
         `Summ` is a summary of student's work/stance/reasoning on a topic
@@ -14,20 +14,21 @@ class Summariser(Agent):
         """
         if convo is not None:
             self.turn = 0
+            self.convo = []
             for msg in convo: 
                 if not msg.strip():continue
                 self.add_convo_message(msg.strip())
-        if Summ is not None: self.Summ = Summ
         prompt = ""
         if self.convo: prompt += "\nConversation:\n" + "\n".join(self.convo)
-        if self.Summ: prompt += "\n\nSummary:\n" + self.Summ
-        prompt += "\n\nStudent's new response:\n" + S
+        if Summ: prompt += "\n\nSummary:\n" + Summ
+        if S : prompt += "\n\nStudent's new response:\n" + S
         # print(prompt)
         res = self.generate(prompt)
         return res
     def format_convo_summ(convo=None,Summ=None):
         if convo is not None:
             self.turn = 0
+            self.convo = []
             for msg in convo: 
                 if not msg.strip():continue
                 self.add_convo_message(msg.strip())

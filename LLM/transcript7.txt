@@ -1,0 +1,117 @@
+solution=
+**Proof that \(\sqrt{2}\) is irrational**
+
+1. **Assume the contrary**  
+   Suppose \(\sqrt{2}\) is rational. Then there exist coprime integers \(a,b\neq0\) such that  
+   \[
+   \sqrt{2}=\frac{a}{b}\quad\Longrightarrow\quad 2=\frac{a^{2}}{b^{2}}\;\Longrightarrow\; a^{2}=2b^{2}.
+   \]
+
+2. **Deduce divisibility of \(a\)**  
+   The equation \(a^{2}=2b^{2}\) shows that \(a^{2}\) is even.  
+   If a square is even, its base must be even; thus \(a\) is even.  
+   Write \(a=2k\) for some integer \(k\).
+
+3. **Substitute back and find \(b\) even**  
+   Plug \(a=2k\) into \(a^{2}=2b^{2}\):
+   \[
+   (2k)^{2}=2b^{2}\;\Longrightarrow\;4k^{2}=2b^{2}\;\Longrightarrow\;2k^{2}=b^{2}.
+   \]
+   Hence \(b^{2}\) is even, so \(b\) is even as well.
+
+4. **Contradiction of coprimality**  
+   Both \(a\) and \(b\) are even, meaning they have a common factor of \(2\).  
+   This contradicts the assumption that \(a\) and \(b\) are coprime.
+
+5. **Conclusion**  
+   The contradiction shows that our initial assumption is false.  
+   Therefore, \(\sqrt{2}\) cannot be expressed as a ratio of two integers; it is irrational.
+prereqs (stage 1) =
+Rational number definition as ratio of two integers
+Definition of coprime (relatively prime) integers
+Parity concept: integer is even or odd
+Property: square of an even integer is even
+Implication: if a square is even then its base is even
+Contradiction reasoning (proof by contradiction)
+prereqs (stage 2) =
+Definition of rational number as a ratio of two integers
+Definition of coprime (relatively prime) integers
+Parity concept: integer is even or odd
+Property: square of an even integer is even
+Implication: if a square is even then its base is even
+Contradiction reasoning (proof by contradiction)
+prereqs (stage 3) =
+Rational number definition
+Copremacy definition
+Parity concept
+Even square property
+Even base from even square implication
+Proof by contradiction reasoning
+prereqs=
+Proof by contradiction reasoning
+Even base from even square implication
+Even square property
+Parity concept
+Copremacy definition
+Rational number definition
+E=Rational number definition
+hl= 4
+H=If you assume that √2 is rational, what does that assumption say about its form? Recall the definition of a rational number: a number that can be written as a fraction \(p/q\) where \(p\) and \(q\) are integers with \(q\neq 0\). How would √2 fit into that definition?
+good=True
+If you assume that √2 is rational, what does that assumption say about its form? Recall the definition of a rational number: a number that can be written as a fraction \(p/q\) where \(p\) and \(q\) are integers with \(q\neq 0\). How would √2 fit into that definition?
+> So, we'll have sqrt 2 = p/q where q is not 0. Ok..
+new_Summ=
+- √2 can be expressed as a fraction p/q where q ≠ 0.  
+- (Implied) p and q are integers, so √2 satisfies the definition of a rational number.
+SPC=2
+SP=
+1. Recall the definition of a rational number as a fraction p/q where p and q are integers and q ≠ 0.  
+2. Assume √2 can be expressed in that form.  
+3. Consider the implications of p and q being integers in lowest terms.
+ET =2
+SED = The student omitted that p and q must be integers in the rational representation.
+lev=3
+H=**Worked example (different, simpler question)**  
+Let’s look at a very basic rational number:  
+
+\[
+\frac{4}{7}
+\]
+
+According to the definition, a rational number can be written as a fraction \(p/q\) where  
+
+- \(p\) and \(q\) are **integers**, and  
+- \(q \neq 0\).
+
+For \(\frac{4}{7}\):  
+- The numerator \(p = 4\) is an integer.  
+- The denominator \(q = 7\) is an integer and is not zero.  
+
+Thus \(\frac{4}{7}\) satisfies the definition of a rational number, so it is indeed rational.
+
+---
+
+Now that we’ve seen a concrete example, try applying the same reasoning to the original question.
+**Worked example (different, simpler question)**  
+Let’s look at a very basic rational number:  
+
+\[
+\frac{4}{7}
+\]
+
+According to the definition, a rational number can be written as a fraction \(p/q\) where  
+
+- \(p\) and \(q\) are **integers**, and  
+- \(q \neq 0\).
+
+For \(\frac{4}{7}\):  
+- The numerator \(p = 4\) is an integer.  
+- The denominator \(q = 7\) is an integer and is not zero.  
+
+Thus \(\frac{4}{7}\) satisfies the definition of a rational number, so it is indeed rational.
+
+---
+
+Now that we’ve seen a concrete example, try applying the same reasoning to the original question.
+> Ok..so sqrt2 = p/q where p,q are **integers** (happy now ?) and q is not 0.
+instr=None

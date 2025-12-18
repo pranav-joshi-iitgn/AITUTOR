@@ -135,7 +135,7 @@ if __name__ == '__main__':
     print("--- Starting LLM API Server ---")
     print("Ollama should be running on http://localhost:11434")
     # Using 0.0.0.0 to make it accessible on the local network (if needed)
-    STATIC_IP = "10.0.177.29"
+    STATIC_IP = "0.0.0.0"
     if "--test" in sys.argv:
         print("Test endpoint: POST http://127.0.0.1:8000/generate")
         # app.run(host='127.0.0.1', port=8000, debug=True)

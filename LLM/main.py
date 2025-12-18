@@ -3,6 +3,7 @@ from Hinter import Hinter, HintEvaluator
 from KCExtractor import KCExtractor, Sequencer
 from summarisation import Summariser
 from LEP import ErrorCatcher, ESF, LEFilter, LEPredictor, SEC, PlanPredictor, Clarifier
+from agent import Agent, SummConvoAgent
 
 InstructionCatcher_agent = InstructionCatcher()
 Hinter_agent = Hinter() 
@@ -17,6 +18,8 @@ PlanPredictor_agent = PlanPredictor()
 Clarifier_agent = Clarifier()
 Sequencer_agent = Sequencer()
 HintEvaluator_agent = HintEvaluator()
+Solution_agent = Agent(system_prompt="file:Solution.txt",model='gpt-oss')
+Selector_agent = SummConvoAgent(system_prompt='file:Selector.txt')
 
 MAX_DEPTH = 3
 MASTERY_THRESH = None
@@ -72,20 +75,29 @@ def Teach(
     # log("prereqs=")
     # for x in prereqs: log(x)
     # prereqs = [g] # TODO: Need to figure out what tf AutoTutor was doing. 
-    prereqs = Sequencer_agent.prerequisites(g,material,stage=1)
+    solution = Solution_agent.generate(f"Material\n:{material}\n\nGoal:\n{g}")
+    log("solution=\n"+solution)
+    prereqs = Sequencer_agent.prerequisites(g,solution,stage=1)
     log(f"prereqs (stage 1) =")
     for x in prereqs: log(x)
-    for stage in [2,3,4]:
+    for stage in [2,3]: # removed stage 4
         prereqs = Sequencer_agent.prerequisites(g,prereqs=prereqs,stage=stage)
         log(f"prereqs (stage {stage}) =")
         for x in prereqs: log(x)
     if not prereqs: prereqs = [g]
-    else: prereqs = prereqs[::-1]
+    prereqs = prereqs[::-1]
     log("prereqs=")
     for x in prereqs: log(x)
     SP = None
     while len(prereqs) > 0:
         # E,lev = pop_next_E_i(mastery,prereqs,MASTERY_THRESH)
+        # prompt = Selector_agent.format_convo_summ(convo,Summ) + "\n\nKnowledge Components" + "\n".join(prereqs[::-1])
+        # idx = Selector_agent.generate(prompt)
+        # try: 
+        #     idx = int(idx)
+        #     E = prereqs.pop(idx)
+        # except:
+        #     E = prereqs.pop()
         E = prereqs.pop()
         log("E=" + str(E))
         if convo:
@@ -101,12 +113,12 @@ def Teach(
         # HS = Hinter_agent.hint_seq(E,Summ,convo,None,SP)
         for hl in range(lev,0,-1):
             log("hl=",str(hl))
-            H = Hinter_agent.hint(E,Summ,convo,None,SP,hl)
+            H = Hinter_agent.hint(E,Summ,convo,g,SP,hl)
             log("H="+H)
             good = HintEvaluator_agent.evaluate(g,H,convo)
             log("good="+str(good))
             if good:break
-        else: H = Hinter_agent.hint(E,Summ,convo,None,SP,0)
+        else: H = Hinter_agent.hint(E,Summ,convo,g,SP,0)
 
         # log("HS =")
         # for x in HS : log("-"*10 + "\n" + x)
@@ -114,16 +126,16 @@ def Teach(
         # log("H=\n"+H)
         send("",H,convo)
         S = ask(convo)
-        LE = LEPredictor_agent.predict_Learning_Events(S,Summ,convo,None,None)
-        log("LE=")
-        for x in LE:log(x)
-        new_LE = LEFilter_agent.filter_out_old_LE(S,Summ,convo,LE)
-        log("new_LE=")
-        for x in new_LE:log(x)
         new_Summ = Summariser_agent.summarise(S,convo,Summ)
         log("new_Summ=\n"+new_Summ)
+        # LE = LEPredictor_agent.predict_Learning_Events(S,new_Summ,convo,None,None)
+        # log("LE=")
+        # for x in LE:log(x)
+        # new_LE = LEFilter_agent.filter_out_old_LE(S,new_Summ,convo,LE)
+        # log("new_LE=")
+        # for x in new_LE:log(x)
         # predict plan from new_Summ, LE, convo, S
-        SPC,SP =PlanPredictor_agent.predict_plan(g,E,new_Summ,LE,convo,S)
+        SPC,SP =PlanPredictor_agent.predict_plan(g,E,Summ,None,convo,S)
         log("SPC="+str(SPC))
         log("SP=\n"+SP)
         more = False
@@ -155,7 +167,7 @@ def Teach(
         if SPC == 0:
             ET = 0
             SED = "Student seems to be stuck. Potential plan : "+SP
-        else:ET,SED = ErrorCatcher_agent.catch_error(Summ,convo,S,new_LE)
+        else:ET,SED = ErrorCatcher_agent.catch_error(Summ,convo,S,None)
         log("ET =" + str(ET))
         log("SED = " + SED)
         # if ET > 0:
@@ -182,7 +194,7 @@ def Teach(
                 lev = 0
                 direct_ans = False
             # send("Let's try again.",HS[lev],convo)
-            if ET > 0 : H = ESF_agent.generate_ESF(Summ,convo[:-1],S,LE,SED,None,lev)
+            if ET > 0 : H = ESF_agent.generate_ESF(Summ,convo[:-1],S,None,SED,None,lev)
             elif ET == 0 : H = Hinter_agent.hint(E,Summ,convo,None,SP,lev)
             log("H=" + H)
             send("",H,convo)
@@ -201,6 +213,13 @@ def Teach(
                 # new_goal = Create_new_goal_from_Doubt(g,Summ,convo,S)
                 # start_new_thread(new_goal,mastery,depth,convo)
                 # skip_E = True # after teaching new goal
+            elif instr==5: # student is telling us we are wrong
+                ET,SED = ErrorCatcher_agent.catch_error(Summ,convo,S)
+                send("I'm listening. Let me re-consider",'',convo,S)
+                Summ = Summariser_agent.summarise(None,convo)
+                if ET < 0 : 
+                    send("",Clarifier_agent.clarification(g,E,None,None,convo[:-2],S,SP,SED),convo)
+                    skip_E = True
             else:
                 good = SEC().is_correct(S,old_Summ,convo,E,None)
                 log("good=",str(good))

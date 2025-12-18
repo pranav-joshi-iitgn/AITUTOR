@@ -82,7 +82,7 @@ class Sequencer(SummConvoAgent):
         self.sysprompt4 = system_prompt4
 
     def prerequisites(self,g,material=None,convo=None,Summ=None,S=None,SP=None,prereqs=None,stage=None) -> list:
-        if material: prompt = "Supporting Material:\n" + material + "\n\n\n"
+        if material: prompt = "Solution:\n" + material + "\n\n\n"
         else: prompt = ""
         if convo is not None : prompt += self.format_convo_summ(convo,Summ) + "\n\n"
         if S: prompt += "Student's next message:\n" + S + "\n\n"

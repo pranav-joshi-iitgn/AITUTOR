@@ -33,7 +33,7 @@ USER_END_TOKEN = {
 
 
 class Agent:
-    def __init__(self,model,system_prompt):
+    def __init__(self,model,system_prompt,prompt_file="prompt.txt"):
         self.model = model
         if system_prompt.startswith("file:"):
             f = system_prompt.split(':',1)[1]
@@ -42,12 +42,14 @@ class Agent:
             f.close()
         self.sysprompt = system_prompt
         self.convo = []
+        self.prompt_file = prompt_file
     def speak(self,res:str=None):
         m = self.model.split(":")[0]
         if res is None:
             convo = "\n".join(self.convo)
             sysprompt = SYSTEM_START_TOKEN[m] + self.sysprompt + SYSTEM_END_TOKEN[m]
             prompt = sysprompt + "\n" + convo + "\n" + ASSISTANT_START_TOKEN[m]
+            with open(self.prompt_file,'w') as f : f.write(prompt)
             res = get_llm_response(prompt,self.model)
         if isinstance(res,ConnectionError): raise res
         else: 
@@ -69,6 +71,7 @@ class Agent:
             userprompt =  prompt + USER_END_TOKEN[m]            
         userprompt = USER_START_TOKEN[m] + prompt + USER_END_TOKEN[m]
         fullprompt = sysprompt + "\n" + userprompt + "\n" + ASSISTANT_START_TOKEN[m]
+        with open(self.prompt_file,'w') as f : f.write(fullprompt)
         res = get_llm_response(fullprompt,self.model)
         if isinstance(res,ConnectionError): raise res
         else: return res
@@ -79,15 +82,16 @@ class SummConvoAgent(Agent):
         self.turn = 0
         self.Summ = ""
     def format_convo_summ(self,convo=None,Summ=None):
+        self.convo = []
         if convo is not None:
             self.turn = 0
             for msg in convo: 
                 if not msg.strip():continue
                 self.add_convo_message(msg.strip())
-        if Summ is not None: self.Summ = Summ
+        # if Summ is not None: self.Summ = Summ
         prompt = ""
         if self.convo: prompt += "\nConversation:\n" + "\n".join(self.convo)
-        if self.Summ: prompt += "\n\nSummary:\n" + self.Summ
+        if Summ: prompt += "\n\nSummary:\n" + Summ
         return prompt
     def add_convo_message(self,msg:str):
         role, msg = msg.split(":",1)

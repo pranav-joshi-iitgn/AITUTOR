@@ -6,7 +6,7 @@ from time import time
 
 # IMPORTANT: Replace this with your server's IP address and port (e.g., '127.0.0.1:8000')
 # SERVER_URL = "http://127.0.0.1:8000/generate" 
-SERVER_URL = "http://10.0.177.29:8000/generate" 
+SERVER_URL = "http://10.0.177.19:8000/generate" 
 
 # Credentials (Must match the USER_DB in your server's app.py)
 USERNAME = "pranav"
