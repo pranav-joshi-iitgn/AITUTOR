@@ -1,10 +1,10 @@
-from agent import Agent,FullStateAgent
+from agent import Agent,FullStateAgent,SummConvoAgent
 
-class Summariser(Agent):
+class Summariser(SummConvoAgent):
     def __init__(self,model="gpt-oss",system_prompt='file:summarisation.txt'):
-        super().__init__(model,system_prompt)
-        self.turn = 0
-        self.Summ = ""
+        super().__init__(system_prompt,model)
+        # self.turn = 0
+        # self.Summ = ""
     def summarise(self,S:(str|None)=None,convo:(str|None)=None,Summ:(str|None)=None) -> str:
         """
         `convo` is the conversation done till now.
@@ -12,36 +12,37 @@ class Summariser(Agent):
         `S` is a new response by the student
         Returns an updated summary of the conversation.
         """
-        if convo is not None:
-            self.turn = 0
-            self.convo = []
-            for msg in convo: 
-                if not msg.strip():continue
-                self.add_convo_message(msg.strip())
-        prompt = ""
-        if self.convo: prompt += "\nConversation:\n" + "\n".join(self.convo)
-        if Summ: prompt += "\n\nSummary:\n" + Summ
+        # if convo is not None:
+        #     self.turn = 0
+        #     self.convo = []
+        #     for msg in convo: 
+        #         if not msg.strip():continue
+        #         self.add_convo_message(msg.strip())
+        # prompt = ""
+        # if self.convo: prompt += "\nConversation:\n" + "\n".join(self.convo)
+        # if Summ: prompt += "\n\nSummary:\n" + Summ
+        prompt = self.format_convo_summ(convo,Summ)
         if S : prompt += "\n\nStudent's new response:\n" + S
         # print(prompt)
         res = self.generate(prompt)
         return res
-    def format_convo_summ(convo=None,Summ=None):
-        if convo is not None:
-            self.turn = 0
-            self.convo = []
-            for msg in convo: 
-                if not msg.strip():continue
-                self.add_convo_message(msg.strip())
-        if Summ is not None: self.Summ = Summ
-        prompt = ""
-        if self.convo: prompt += "\nConversation:\n" + "\n".join(self.convo)
-        if self.Summ: prompt += "\n\nSummary:\n" + self.Summ
-    def add_convo_message(self,msg:str):
-        role, msg = msg.split(":",1)
-        role = role.strip().lower().capitalize()
-        if role == "Tutor":self.turn += 1
-        assert role in ["Tutor","Student"], f"unknown role {role}"
-        self.convo.append(f"{self.turn}: {role} : {msg.strip()}")
+    # def format_convo_summ(convo=None,Summ=None):
+    #     if convo is not None:
+    #         self.turn = 0
+    #         self.convo = []
+    #         for msg in convo: 
+    #             if not msg.strip():continue
+    #             self.add_convo_message(msg.strip())
+    #     if Summ is not None: self.Summ = Summ
+    #     prompt = ""
+    #     if self.convo: prompt += "\nConversation:\n" + "\n".join(self.convo)
+    #     if self.Summ: prompt += "\n\nSummary:\n" + self.Summ
+    # def add_convo_message(self,msg:str):
+    #     role, msg = msg.split(":",1)
+    #     role = role.strip().lower().capitalize()
+    #     if role == "Tutor":self.turn += 1
+    #     assert role in ["Tutor","Student"], f"unknown role {role}"
+    #     self.convo.append(f"{self.turn}: {role} : {msg.strip()}")
 
 if __name__ == "__main__":
     convo = [

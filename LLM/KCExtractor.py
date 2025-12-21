@@ -120,8 +120,17 @@ class Sequencer(SummConvoAgent):
 
         return prereqs
 
-
-
+class GoalSetter(SummConvoAgent):
+    def __init__(self,model="gpt-oss",system_prompt='file:goal.txt'):
+        super().__init__(system_prompt,model)
+    def create_new_goal(self,convo):
+        self.convo = []
+        for msg in convo:
+            if msg.startswith("Student"):
+                self.hear(msg.split(":",1)[1])
+            elif msg.startswith("Tutor"):
+                self.speak(msg.split(":",1)[1])
+        return self.speak()
 
 
 if __name__ == "__main__":

@@ -1,14 +1,18 @@
-from agent import Agent
+from agent import Agent,SummConvoAgent
 
-class Hinter(Agent):
-    def __init__(self,model="gpt-oss",system_prompt = "file:Hinter.txt", system_prompt2="file:Hinter2.txt", system_prompt3 = "file:Hinter3.txt"):
+class Hinter(SummConvoAgent):
+    def __init__(self,model="gpt-oss",system_prompt = "file:Hinter.txt", 
+        system_prompt2="file:Hinter2.txt",
+        system_prompt3 = "file:Hinter3.txt",
+        prompt_file="prompt_hinter.txt"
+        ):
         if system_prompt2.startswith('file'):
             with open(system_prompt2.split(":",1)[1],'r') as f:
                 system_prompt2 = f.read()
         if system_prompt3.startswith('file'):
             with open(system_prompt3.split(":",1)[1],'r') as f:
                 system_prompt3 = f.read()
-        super().__init__(model,system_prompt)
+        super().__init__(system_prompt,model,prompt_file)
         self.sysprompt2 = system_prompt2
         self.sysprompt3 = system_prompt3
         self.turn = 0
@@ -38,15 +42,7 @@ class Hinter(Agent):
         ,and the pump R_M
         returns hint sequence [R_B,R_R,R_T,R_F,R_P,R_M]
         """
-        if convo is not None:
-            self.turn = 0
-            for msg in convo: 
-                if not msg.strip():continue
-                self.add_convo_message(msg.strip())
-        if Summ is not None: self.Summ = Summ
-        prompt = ""
-        if self.convo: prompt += "\nConversation:\n" + "\n".join(self.convo)
-        if self.Summ: prompt += "\n\nSummary:\n" + self.Summ
+        prompt = self.format_convo_summ()
         prompt += "\n\nTarget Knowlege Concept to teach:\n" + E
         if g: prompt += "\n\nMain goal:\n" + g
         if SP: prompt += "\n\nPossible plan that student is following:\n" + SP
@@ -100,12 +96,14 @@ class Hinter(Agent):
         ,pointing hint R_P
         ,and the pump R_M
         """
-        if convo is not None:
-            self.turn = 0
-            for msg in convo: 
-                if not msg.strip():continue
-                self.add_convo_message(msg.strip())
-        if Summ is not None: self.Summ = Summ
+        # self.convo = []
+        # if convo is not None:
+        #     self.turn = 0
+        #     for msg in convo: 
+        #         if not msg.strip():continue
+        #         self.add_convo_message(msg.strip())
+        # if Summ is not None: self.Summ = Summ
+        prompt = self.format_convo_summ(convo,Summ)
         prompt = ""
         if self.convo: prompt += "\nConversation:\n" + "\n".join(self.convo)
         if self.Summ: prompt += "\n\nSummary:\n" + self.Summ
@@ -153,8 +151,6 @@ if __name__ == "__main__":
         "Student : It is nx^{n-1}",
     ]
     Summ = "1. Derivative of x^12 + 3x is 11x^11+3 [S1].\n2. Derivative of x^n is nx^{n-1} [S2]"
-    convo = []
-    Summ = None
     E = "Power rule in differentiation"
     H = Hinter().hint(E,Summ,convo,g,level=4)
     print("Hint:",H)

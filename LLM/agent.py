@@ -51,10 +51,9 @@ class Agent:
             prompt = sysprompt + "\n" + convo + "\n" + ASSISTANT_START_TOKEN[m]
             with open(self.prompt_file,'w') as f : f.write(prompt)
             res = get_llm_response(prompt,self.model)
-        if isinstance(res,ConnectionError): raise res
-        else: 
-            self.convo.append(ASSISTANT_START_TOKEN[m] + res + ASSISTANT_END_TOKEN[m])
-            return res
+        if isinstance(res,ConnectionError): raise res 
+        self.convo.append(ASSISTANT_START_TOKEN[m] + res + ASSISTANT_END_TOKEN[m])
+        return res
     def hear(self,messages):
         m = self.model.split(":")[0]
         if isinstance(messages,list): self.convo.extend(messages)
@@ -77,8 +76,8 @@ class Agent:
         else: return res
 
 class SummConvoAgent(Agent):
-    def __init__(self,system_prompt,model="gpt-oss"):
-        super().__init__(model,system_prompt)
+    def __init__(self,system_prompt,model="gpt-oss",prompt_file="prompt.txt"):
+        super().__init__(model,system_prompt,prompt_file)
         self.turn = 0
         self.Summ = ""
     def format_convo_summ(self,convo=None,Summ=None):
@@ -101,8 +100,8 @@ class SummConvoAgent(Agent):
         self.convo.append(f"{self.turn}: {role} : {msg.strip()}")
 
 class FullStateAgent(SummConvoAgent):
-    def __init__(self,system_prompt,model="gpt-oss"):
-        super().__init__(model,system_prompt)
+    def __init__(self,system_prompt,model="gpt-oss",prompt_file="prompt.txt"):
+        super().__init__(model,system_prompt,prompt_file)
     def format_convo_summ(self,
         S:str=None,
         convo:list[str]=None,

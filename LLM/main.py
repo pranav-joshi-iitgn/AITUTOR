@@ -1,6 +1,6 @@
 from GetInstr import InstructionCatcher
 from Hinter import Hinter, HintEvaluator
-from KCExtractor import KCExtractor, Sequencer
+from KCExtractor import KCExtractor, Sequencer, GoalSetter
 from summarisation import Summariser
 from LEP import ErrorCatcher, ESF, LEFilter, LEPredictor, SEC, PlanPredictor, Clarifier
 from agent import Agent, SummConvoAgent
@@ -20,6 +20,7 @@ Sequencer_agent = Sequencer()
 HintEvaluator_agent = HintEvaluator()
 Solution_agent = Agent(system_prompt="file:Solution.txt",model='gpt-oss')
 Selector_agent = SummConvoAgent(system_prompt='file:Selector.txt')
+GoalSetter_agent = GoalSetter()
 
 MAX_DEPTH = 3
 MASTERY_THRESH = None
@@ -80,7 +81,7 @@ def Teach(
     prereqs = Sequencer_agent.prerequisites(g,solution,stage=1)
     log(f"prereqs (stage 1) =")
     for x in prereqs: log(x)
-    for stage in [2,3]: # removed stage 4
+    for stage in [3,4]: # removed stage 2
         prereqs = Sequencer_agent.prerequisites(g,prereqs=prereqs,stage=stage)
         log(f"prereqs (stage {stage}) =")
         for x in prereqs: log(x)
@@ -139,7 +140,7 @@ def Teach(
         log("SPC="+str(SPC))
         log("SP=\n"+SP)
         more = False
-        for i in range(3): # ask for clarification
+        for i in range(3): # ask for clarification 
             if SPC != -1:break
             more = True
             clar = Clarifier_agent.clarification(g,E,new_Summ,None,convo,S,SP) # TODO : Add back LE once fixed
@@ -151,9 +152,9 @@ def Teach(
             SPC,SP =PlanPredictor_agent.predict_plan(g,E,new_Summ,None,convo,S) # TODO : Add back LE once fixed
             log("SPC="+str(SPC))
             log("SP=\n"+SP)
-        if more:
+        # if more:
             # updated_convo = convo + ["Student : " + S]
-            Summ = new_Summ
+            # Summ = new_Summ
             # HS = Hinter_agent.hint(E,Summ,updated_convo,None,SP)
             # log("HS =")
             # for x in HS : log("-"*10 + "\n" + x)
@@ -167,7 +168,7 @@ def Teach(
         if SPC == 0:
             ET = 0
             SED = "Student seems to be stuck. Potential plan : "+SP
-        else:ET,SED = ErrorCatcher_agent.catch_error(Summ,convo,S,None)
+        else:ET,SED = ErrorCatcher_agent.catch_error(new_Summ,convo,S,None)
         log("ET =" + str(ET))
         log("SED = " + SED)
         # if ET > 0:
@@ -199,7 +200,7 @@ def Teach(
             log("H=" + H)
             send("",H,convo)
             S = ask(convo)
-            instr = InstructionCatcher_agent.catch_instruction(S)
+            instr = InstructionCatcher_agent.catch_instruction(convo + ["Student : " + S])
             log("instr="+str(instr))
             if instr == 0 or instr == 1: # skip
                 send("OK, Let's skip this then.","",convo,S)
@@ -209,10 +210,13 @@ def Teach(
                 direct_ans = True
                 send("I'll give you a direct answer then. But just this once.","",convo,S)
             elif instr== 4: # student is asking to discuss another thing.
-                send("No. Stick to one task till end.","",convo,S) # TODO : Remove this in future
-                # new_goal = Create_new_goal_from_Doubt(g,Summ,convo,S)
-                # start_new_thread(new_goal,mastery,depth,convo)
-                # skip_E = True # after teaching new goal
+                send("Ok, let's move to a new goal then","",convo,S) # TODO : Remove this in future
+                new_goal = GoalSetter_agent.create_new_goal(convo)
+                send("Let's talk about.." + new_goal,convo)
+                new_convo = start_new_thread(new_goal,mastery,depth+1,[])
+                convo.extend(new_convo)
+                send("Now, let's come back",convo)
+                skip_E = True # after teaching new goal
             elif instr==5: # student is telling us we are wrong
                 ET,SED = ErrorCatcher_agent.catch_error(Summ,convo,S)
                 send("I'm listening. Let me re-consider",'',convo,S)
@@ -248,6 +252,7 @@ def Teach(
         H = Hinter_agent.hint(E,Summ,convo,None,SP,0)
         send("",H,convo) # bottom out hint
 
+    return convo
 
 if __name__ == "__main__":
     KCExtractor_agent.KCList = [

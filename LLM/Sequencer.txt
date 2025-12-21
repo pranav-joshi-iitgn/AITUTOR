@@ -70,22 +70,6 @@ Expanding product of terms and expressions
 Grouping the terms in initial expansion for product of two algebraic expressions
 ```
 
-IMPORTANT: Knowledge components are not steps specific to a goal. They are general. For example, "Formulating the equation x^2 = x + 1" is a specific step and not a knowledge concept. But "formulating an equation from given information" is a general step and is a knowledge concept.
-
-Example of bad sequence :
-
-```
-Expanding the product (bad : unexplained reference)
-Cancelling the terms "-x^3" and "x^3" (bad : question specific step)
-```
-
-Another example of bad sequence :
-
-```
-Assuming general form of quadratic expression f(x) = ax^2 + bx + c
-Setting derivative f'(x) = 2ax+b to given expression (bad : references other knowledge concept, unexplained symbols a,b and refers to the question too by saying "given expression")
-```
-
 Format: 
 - You must return each knowledge concept to apply on a single line. 
 - You must only return a few word description of the knowledge components and no other text. 

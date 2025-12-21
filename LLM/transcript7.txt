@@ -26,6 +26,10 @@ solution=
 5. **Conclusion**  
    The contradiction shows that our initial assumption is false.  
    Therefore, \(\sqrt{2}\) cannot be expressed as a ratio of two integers; it is irrational.
+
+# Ok.. so after generating solution, the next easiest thing is of course to generate the steps, which is what the LLM is doing
+# Now, these steps are for sure what we would want to hint on.. but these aren't knowledge components..
+# Yea.. seems it's a bit different from what AutoTutor was doing. Then again, that was an application based around teaching a specific paragraph (like NotebookLM) and not a particular question
 prereqs (stage 1) =
 Rational number definition as ratio of two integers
 Definition of coprime (relatively prime) integers
@@ -33,7 +37,7 @@ Parity concept: integer is even or odd
 Property: square of an even integer is even
 Implication: if a square is even then its base is even
 Contradiction reasoning (proof by contradiction)
-prereqs (stage 2) =
+prereqs (stage 2) = # barely anything is happening here
 Definition of rational number as a ratio of two integers
 Definition of coprime (relatively prime) integers
 Parity concept: integer is even or odd
@@ -54,14 +58,14 @@ Even square property
 Parity concept
 Copremacy definition
 Rational number definition
-E=Rational number definition
+E=Rational number definition # The thing it'll teach first
 hl= 4
 H=If you assume that √2 is rational, what does that assumption say about its form? Recall the definition of a rational number: a number that can be written as a fraction \(p/q\) where \(p\) and \(q\) are integers with \(q\neq 0\). How would √2 fit into that definition?
 good=True
 If you assume that √2 is rational, what does that assumption say about its form? Recall the definition of a rational number: a number that can be written as a fraction \(p/q\) where \(p\) and \(q\) are integers with \(q\neq 0\). How would √2 fit into that definition?
 > So, we'll have sqrt 2 = p/q where q is not 0. Ok..
 new_Summ=
-- √2 can be expressed as a fraction p/q where q ≠ 0.  
+- √2 can be expressed as a fraction p/q where q ≠ 0. 
 - (Implied) p and q are integers, so √2 satisfies the definition of a rational number.
 SPC=2
 SP=

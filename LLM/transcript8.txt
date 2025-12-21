@@ -1,0 +1,194 @@
+solution=
+**Proof that \(\sqrt{2}\) is irrational**
+
+1. **Assume the contrary**:  
+   Suppose \(\sqrt{2}\) is rational. Then it can be written as a fraction in lowest terms,  
+   \[
+   \sqrt{2}=\frac{a}{b}\qquad(a,b\in\mathbb Z,\; \gcd(a,b)=1,\;b\neq0).
+   \]
+
+2. **Square both sides**:  
+   \[
+   2=\frac{a^{2}}{b^{2}}\quad\Longrightarrow\quad a^{2}=2b^{2}.
+   \]
+   Thus \(a^{2}\) is even.
+
+3. **Conclude \(a\) is even**:  
+   If a square is even, its base must be even.  
+   Write \(a=2k\) for some integer \(k\).  
+   Substitute back: \((2k)^{2}=2b^{2}\;\Longrightarrow\;4k^{2}=2b^{2}\;\Longrightarrow\;2k^{2}=b^{2}\).
+
+4. **Conclude \(b\) is even**:  
+   The equation \(b^{2}=2k^{2}\) shows \(b^{2}\) is even, so \(b\) must be even.
+
+5. **Reach a contradiction**:  
+   Both \(a\) and \(b\) are divisible by 2, contradicting \(\gcd(a,b)=1\).  
+   Hence the assumption that \(\sqrt{2}\) is rational is false; therefore \(\sqrt{2}\) is irrational.
+prereqs (stage 1) =
+Proof by contradiction
+Represent a rational number in lowest terms (greatest common divisor = 1)
+Square both sides of an equation
+Property: if a square of an integer is even, then the integer itself is even
+Property: if an integer is even, then its square is even
+Relate divisibility by 2 to the greatest common divisor condition
+Derive a contradiction from common factors of numerator and denominator
+prereqs (stage 2) =
+Proof by contradiction
+Represent a rational number as a fraction with coprime numerator and denominator
+Square both sides of an equation
+If a square of an integer is even, then the integer itself is even
+If an integer is even, then its square is even
+Use divisibility by 2 to analyze common factors in numerator and denominator
+Derive a contradiction from common factors of numerator and denominator
+prereqs (stage 3) =
+Proof by contradiction
+Express a rational number in lowest terms
+Apply exponentiation to both sides of an equation
+Parity properties of squares
+Analyze common factors using divisibility
+Derive contradiction from common factors
+prereqs=
+Derive contradiction from common factors
+Analyze common factors using divisibility
+Parity properties of squares
+Apply exponentiation to both sides of an equation
+Express a rational number in lowest terms
+Proof by contradiction
+E=Proof by contradiction
+hl= 4
+H=Recall that a proof by contradiction starts with the opposite of what you want to prove.  
+In this case, look at the assumption that \(\sqrt{2}\) **is** rational and can be written as a reduced fraction \(\frac{p}{q}\).  Where does that lead you?
+good=True
+Recall that a proof by contradiction starts with the opposite of what you want to prove.  
+In this case, look at the assumption that \(\sqrt{2}\) **is** rational and can be written as a reduced fraction \(\frac{p}{q}\).  Where does that lead you?
+> So we will assume that sqrt 2 is rational (and thus can be written as p/q) ..then from that we need to show that some false equation is derived.
+new_Summ=
+- [S2] We assume \(\sqrt{2}\) is rational and can be expressed as a reduced fraction \(\frac{p}{q}\); from this assumption we need to derive a false equation.
+SPC=2
+SP=
+- Assume that \(\sqrt{2}\) is rational and write it as a reduced fraction \(\dfrac{p}{q}\).  
+- Square both sides of the equation \( \sqrt{2} = \dfrac{p}{q}\) to obtain \(2q^{2}=p^{2}\).  
+- Use the derived equation to argue that \(p\) must be even, hence \(p=2k\), and then deduce that \(q\) must also be even.  
+- Show that having both \(p\) and \(q\) even contradicts the assumption that \(\dfrac{p}{q}\) was in lowest terms.  
+- Conclude that the initial assumption was false, proving that \(\sqrt{2}\) is irrational.
+ET =-1
+SED = Student correctly restates the assumption step of the proof by contradiction.
+E=Express a rational number in lowest terms
+good= None
+hl= 4
+H=Recall the definition of a fraction in lowest terms:  
+If \( \dfrac{p}{q} \) is reduced, then \(p\) and \(q\) have no common factor other than 1 (i.e., \(\gcd(p,q)=1\)).  
+Think about how this condition will restrict the possible values of \(p\) and \(q\) once you derive a relation between them.
+good=True
+Recall the definition of a fraction in lowest terms:  
+If \( \dfrac{p}{q} \) is reduced, then \(p\) and \(q\) have no common factor other than 1 (i.e., \(\gcd(p,q)=1\)).  
+Think about how this condition will restrict the possible values of \(p\) and \(q\) once you derive a relation between them.
+> There must be a coprime pair (p,q) for rationality of sqrt 2.. if that can't happen, incorrect
+new_Summ=
+- The student claims that for \(\sqrt{2}\) to be rational, there must exist a coprime pair \((p,q)\) such that \(\sqrt{2}=p/q\); if such a pair cannot exist, then \(\sqrt{2}\) is irrational.
+SPC=2
+SP=
+- Assume \(\sqrt{2}\) is rational.
+- Express it as a reduced fraction \(\frac{p}{q}\) in lowest terms.
+- Note that \(p\) and \(q\) are coprime (\(\gcd(p,q)=1\)).
+- Plan to use this coprimality condition in the contradiction argument.
+ET =0
+SED = The student restates that p and q must be coprime but hasn't applied the derived relation to reach a contradiction.
+lev=3
+H=When a fraction \(\frac{p}{q}\) is expressed in lowest terms, the greatest common divisor of \(p\) and \(q\) equals ____ .
+When a fraction \(\frac{p}{q}\) is expressed in lowest terms, the greatest common divisor of \(p\) and \(q\) equals ____ .
+> 1
+instr=1
+OK, Let's skip this then. 
+E=Apply exponentiation to both sides of an equation
+good= False
+hl= 4
+H=Think about the equation you wrote down, “\(\sqrt{2} = \dfrac{p}{q}\).”  
+If you apply the same operation to both sides of this equation, what does it become?
+good=False
+hl= 3
+H=Square both sides of the equation \(\displaystyle \sqrt{2}=\frac{p}{q}\) to obtain  
+\[
+\boxed{\;2 \;=\; \frac{p^{2}}{q^{2}}\;}
+\]  
+Simplifying gives  
+\[
+\boxed{\;p^{2}\;=\;2\,q^{2}\;}
+\]
+good=True
+Square both sides of the equation \(\displaystyle \sqrt{2}=\frac{p}{q}\) to obtain  
+\[
+\boxed{\;2 \;=\; \frac{p^{2}}{q^{2}}\;}
+\]  
+Simplifying gives  
+\[
+\boxed{\;p^{2}\;=\;2\,q^{2}\;}
+\]
+> Ok..I agree
+new_Summ=
+- The student asserts that for √2 to be rational, there must exist a coprime pair (p, q) such that √2 = p/q; if such a pair cannot exist, then √2 is irrational.
+SPC=1
+SP=
+- Deduce that \(p^2\) is an even number from the equation \(p^{2}=2q^{2}\).  
+- Conclude that \(p\) itself must be even, so write \(p=2k\) for some integer \(k\).  
+- Substitute \(p=2k\) back into \(p^{2}=2q^{2}\) to obtain \((2k)^{2}=2q^{2}\), simplifying to \(2k^{2}=q^{2}\).  
+- Observe that \(q^{2}\) is even, which forces \(q\) to be even.  
+- Note that both \(p\) and \(q\) would share a factor of 2, contradicting the assumption that \(\frac{p}{q}\) is in lowest terms.  
+- Conclude that no such coprime pair exists, so \(\sqrt{2}\) is irrational.
+prereqs=
+Proof by contradiction
+Substitution and simplification
+Prime dividing a perfect square implies prime divides its base
+It seems you are doing something different than what I thought you would. I'll try to follow the path you are taking. Let's start over.
+E=Prime dividing a perfect square implies prime divides its base
+good= False
+hl= 4
+H=You have the equation  
+
+\[
+p^{2}=2\,q^{2}
+\]
+
+which tells you that the prime \(2\) divides the left‑hand side \(p^{2}\).  
+Recall the rule: **if a prime divides a perfect square, it must divide the base**.  
+What does that rule imply about the relationship between \(2\) and \(p\) in this case?
+good=True
+You have the equation  
+
+\[
+p^{2}=2\,q^{2}
+\]
+
+which tells you that the prime \(2\) divides the left‑hand side \(p^{2}\).  
+Recall the rule: **if a prime divides a perfect square, it must divide the base**.  
+What does that rule imply about the relationship between \(2\) and \(p\) in this case?
+> It means 2 divides p. So then p = 2k ..then 4k^2 = 2q^2 and q^2 = 2k^2 ..so then 2 also divides q. Ah..that's a contradiction then
+new_Summ=
+- The student claims that for √2 to be rational there must exist a coprime pair (p,q) such that √2 = p/q; if no such pair exists, then √2 is irrational.  
+- The student states that gcd(p,q)=1 (i.e., p and q are coprime).  
+- The student claims that if the prime 2 divides p, then p = 2k for some integer k.  
+- The student derives that substituting p = 2k into p² = 2q² gives 4k² = 2q², hence q² = 2k², so 2 divides q.  
+- The student concludes that 2 divides both p and q, contradicting their coprimality, and therefore this leads to a contradiction.
+SPC=2
+SP=
+1. Assume \(\sqrt{2}\) is rational and write it as a reduced fraction \(p/q\).  
+2. Square both sides to obtain \(p^{2}=2q^{2}\).  
+3. Apply the rule that if a prime divides a perfect square, it must divide its base to deduce \(2\mid p\).  
+4. Express \(p\) as \(2k\) and substitute back, getting \(q^{2}=2k^{2}\).  
+5. Use the same rule again to deduce \(2\mid q\).  
+6. Recognise that \(p\) and \(q\) can’t both be even, contradicting the assumption of a reduced fraction.  
+7. Conclude that the assumption is false, so \(\sqrt{2}\) is irrational.
+ET =-1
+SED = The student correctly applies the logic that 2 divides p, deduces 2 divides q, and identifies the resulting contradiction.
+E=Substitution and simplification
+good= False
+hl= 4
+H=You just established that the prime 2 divides p.  
+A common way to use such a fact is to **replace p by a multiple of 2**.  
+If you write \(p = 2k\) for some integer k and then substitute this into  
+\(p^{2}=2q^{2}\), what simplification do you get?  (Think about how the factor of 2 behaves when you square \(2k\).)
+good=True
+You just established that the prime 2 divides p.  
+A common way to use such a fact is to **replace p by a multiple of 2**.  
+If you write \(p = 2k\) for some integer k and then substitute this into  
+\(p^{2}=2q^{2}\), what simplification do you get?  (Think about how the factor of 2 behaves when you square \(2k\).)

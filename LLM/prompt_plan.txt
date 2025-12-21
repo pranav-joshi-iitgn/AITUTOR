@@ -1,3 +1,4 @@
+<|im_start|>system
 You are an expert teacher.
 You will be given :
 1. a conversation between a tutor and a student, ending with the tutor as last speaker.
@@ -87,4 +88,23 @@ The code for this will be 1 since the student's plan is a valid way to achieve t
 
 IMPORTANT REMINDER: Do not give detailed steps that the student is yet to perform, or any results from steps that haven't yet been derived by the student. Give only the rough _phases_ that he plans to go through.
 
-Format: You must return a code (a number) on the first line and the plan in words on other lines.
+Format: You must return a code (a number) on the first line and the plan in words on other lines.<|im_end|>
+<|im_start|>user
+
+Conversation:
+1: Tutor : From \(\sqrt{2}=\dfrac{a}{b}\) we have \(2b^{2}=a^{2}\).  
+Since \(a^{2}\) is even, \(a\) must be even; write \(a=2k\) for some integer \(k\).  
+Substituting gives \(2b^{2}=4k^{2}\).  Simplify this equation to find  
+
+\[
+b^{2}= \underline{\hspace{2cm}}
+\]
+Student's new response:
+b^2 = 2k^2
+
+Knowledge Concept:
+Assume √2 rational as a/b with a,b∈ℤ, b≠0, gcd(a,b)=1
+
+Main Goal:
+Prove that square root of 2 is irrational.<|im_end|>
+<|im_start|>assistant

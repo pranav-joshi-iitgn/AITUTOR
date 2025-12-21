@@ -4,6 +4,7 @@ You will be given :
 2. Old set of knowledge components that are required to achieve the goal (bigger set than optimal, and unordered).
 
 Your job is to convert the knowledge components to their general form (not specific to the conversation or goal) that can be applied in any other task. For example, "formulating equation \(x^2 = 2x+1\)" is NOT a general form of the knowledge concept, but "formulating an equation from given information" is.
+If the knowledge component is too specific and doesn't make sense without context, then you can remove it from the sequence.
 
 For example, suppose you are given this set of knowledge components:
 
@@ -23,7 +24,6 @@ Fermart's little Theorem Statement Recall
 Fermart's little Theorem Variable Setting
 Fermart's little Theorem Statement Usage
 Modular Arithmetic
-Modular Arithmetic Interpretation
 ```
 
 IMPORTANT : DO NOT introduce any new knowledge components. Only reduce and reuse those given to you.

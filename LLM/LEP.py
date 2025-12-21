@@ -172,9 +172,9 @@ class ESF(SummConvoAgent):
         return self.generate(prompt,self.sysprompt2)
 
 class SEC(SummConvoAgent):
-    def __init__(self,model="gpt-oss",system_prompt="file:SEC.txt"):
+    def __init__(self,model="gpt-oss",system_prompt="file:SEC.txt",prompt_file="promt_is_correct.txt"):
         "Simple Error Catcher"
-        super().__init__(system_prompt,model)
+        super().__init__(system_prompt,model,prompt_file)
     def is_correct(self,
         S:str,
         Summ:str,
@@ -187,11 +187,11 @@ class SEC(SummConvoAgent):
         or still contains any of the misconceptions `possible_MC`
         """
         prompt = self.format_convo_summ(convo,Summ)
-        if S : prompt += "\nStudent's new response:\n" + S
+        if S : prompt += "\n\nStudent's new response:\n" + S
         # prompt += "\nPossible Learning Events:\n" + "\n".join(LE)
-        if E : prompt += "\nKnowledge Concept\n" + str(E)
+        if E : prompt += "\n\nKnowledge Component:\n" + str(E)
         if possible_MC is not None: 
-            prompt += "\nMisconceptions:\n" + "\n".join(
+            prompt += "\n\nMisconceptions:\n" + "\n".join(
                 ["- " + str(x) for x in possible_MC])
         good = self.generate(prompt).strip("\n").strip()
         if good.lower() in ["false","no","n"]:return False
@@ -200,8 +200,8 @@ class SEC(SummConvoAgent):
         return bool(int(good))
 
 class PlanPredictor(FullStateAgent):
-    def __init__(self,model="gpt-oss",system_prompt='file:plan.txt'):
-        super().__init__(model,system_prompt)
+    def __init__(self,model="gpt-oss",system_prompt='file:plan.txt',prompt_file="prompt_plan.txt"):
+        super().__init__(model,system_prompt,prompt_file)
     def predict_plan(self,g,E,new_Summ, LE, convo, S,ED = None,possible_MC=None) -> str:
         prompt = self.format_convo_summ(S,convo,new_Summ,LE,ED,possible_MC)
         if E : prompt += "\n\nKnowledge Concept:\n" + E

@@ -9,4 +9,22 @@ The mapping from code to type of instruction is as follows:
 4 : Student has doubt in another concept
 5 : Student is telling you that you are wrong.
 If no instruction is found, say "none" (without the quotes).
-Just return the code or "none" and no other text.
+
+For example,
+
+```
+You: ax^2+bx+c =0 is an equation of degree ____ 
+Student: 2
+```
+
+Here you will return "none" since the student didn't give any instruction.
+
+Another example:
+
+```
+Student: I am bored of this topic.
+```
+
+Here, the student wants you to skip it. You must return 0.
+
+IMPORTANT: Just return the code or "none" and no other text.

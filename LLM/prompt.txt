@@ -1,95 +1,25 @@
 <|im_start|>system
-You are an expert teacher.
+You are a summarisation agent.
 You will be given :
 1. a conversation between a tutor and a student, ending with the tutor as last speaker.
-2. the summary of the conversation upto a certain point describing prepositions and hypothesis by the student.
+2. the summary of the conversation upto a certain point. This summary will refer to the conversation using turn numbers in square brackets, for example "[S12]" means "12th turn, student's response".
 3. the next statement or question by the student.
-4. A possible sequence of learning events (LEs) or sub-steps that the student might have taken mentally for his statement.
-5. The knowledge concept that we want to teach the student.
-6. [OPTIONAL] Possible miconceptions that the student might have
-Your job is see whether the student is applying the knowledge concept given correctly and is not having any misconceptions out of ones given.
-IMPORTANT : Check ONLY for the given the knowledge concept and misconceptions. Do NOT check for other mistakes.
-
-```
-Conversation: 
-Tutor : What is remainder of 5 to the power of 107 when divided by 107 ? How would you start on this ?
-Student : This question is related to remainders.. so we can apply theorems like Fermart's little theorem. It says that \(x^{p-1} \cong 1 \mod p\).. x must be 5 .. but what is p?.
-Tutor : Good. Notice that 107 is a prime.
-
-Summary:
-1. Student recognises that the problem might involve using number theoretic theorems like Fermart's little theorem. [S1]
-2. Fermart's theorem says that \(x^{p-1} \cong 1 \mod p\) [S1].
-3. x in Fermart's theorem is 5 in this case [S1].
-4. Student doesn't know what is p (in Fermart's theorem) in this case.
-
-Student's next step :
-Ok, it should be 1 then.
-
-Possible learning events:
-- Extracting information : Notice that 107 is prime
-- Variable Setting : Set p = 107 in Fermart's theorem
-- Formula Usage : Use Fermart's little theorem incorrectly to say that \(5^{107} \cong 1 \mod 107\)
-- Formula Result interpretation : The question asks for remainder, which is 1 (< 107).
-
-Knowledge Concept: Fermart's little theorem
-```
-
-Since the student is not applying the knowledge concept correctly in his latest message, we will give a negative response , namely "no".
-
-Another example:
-
-```
-Conversation: 
-Tutor : What is simplificaion of \(\frac{2x+2}{2y+2}\) ?
-
-Student's next step :
-It is \(\frac{x+2}{y+2}\)
-
-Possible learning events:
-- Student read the expression and noticed that both numerator and denominator have "2"
-- The student recalled that we can cancell the same number in numerator and denominator
-- The student cancelled the coefficients 2 from x in numerator and y in denominator to give \(\frac{x+2}{y+2}\)
-
-Knowledge Concept: simplification of algebraic expressions
-
-Common Misconceptions: 
-- Students only partially cancel factors from numerator and denominator
-- Students cancel terms even when they are not additive inverses
-- Students only partially distribute multiplicative factors over addition
-- Students cancel exponents in fractions rather than factors
-```
-
-Here, it's obvious that the student is showing the partial factor cancelation error and thus we give a negative response, namely "no" (without the quotes).
-
-IMPORTANT : Return only "no","yes","partial" (without quotes) to specify correct, incorrect, or partial (not incorrect, but not complete application of technique or fact) application of the knowledge concept. No other text.<|im_end|>
+You need to summarise the current set of claims and hypothesis from student's side. You can use the same numbering scheme as one in original summary.
+Make sure to include all claims in the conversation, modify the claims in the original summary when necessary and only include claims from student's side.
+Also make sure to not jump too early to conclusions and reason whether the student is really putting forward a claim. The stance that the student takes varies over time. 
+Format: Only bullet points. No italisised or bold text. No extra comments. 
+We want the latest, but also complete set of claims and hypothesis done by the student. <|im_end|>
 <|im_start|>user
 
 Conversation:
-1: Tutor : If you assume that √2 is rational, what does that assumption say about its form? Recall the definition of a rational number: a number that can be written as a fraction \(p/q\) where \(p\) and \(q\) are integers with \(q\neq 0\). How would √2 fit into that definition?
-1: Student : So, we'll have sqrt 2 = p/q where q is not 0. Ok..
-2: Tutor : **Worked example (different, simpler question)**  
-Let’s look at a very basic rational number:  
+1: Tutor : From \(\sqrt{2}=\dfrac{a}{b}\) we have \(2b^{2}=a^{2}\).  
+Since \(a^{2}\) is even, \(a\) must be even; write \(a=2k\) for some integer \(k\).  
+Substituting gives \(2b^{2}=4k^{2}\).  Simplify this equation to find  
 
 \[
-\frac{4}{7}
+b^{2}= \underline{\hspace{2cm}}
 \]
 
-According to the definition, a rational number can be written as a fraction \(p/q\) where  
-
-- \(p\) and \(q\) are **integers**, and  
-- \(q \neq 0\).
-
-For \(\frac{4}{7}\):  
-- The numerator \(p = 4\) is an integer.  
-- The denominator \(q = 7\) is an integer and is not zero.  
-
-Thus \(\frac{4}{7}\) satisfies the definition of a rational number, so it is indeed rational.
-
----
-
-Now that we’ve seen a concrete example, try applying the same reasoning to the original question.
 Student's new response:
-Ok..so sqrt2 = p/q where p,q are **integers** (happy now ?) and q is not 0.
-Knowledge Concept
-Rational number definition<|im_end|>
+b^2 = 2k^2<|im_end|>
 <|im_start|>assistant

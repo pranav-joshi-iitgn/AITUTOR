@@ -1,0 +1,124 @@
+solution=
+**Proof that \(\sqrt{2}\) is irrational (≤ 5 steps)**  
+
+1. **Assume the contrary.**  
+   Suppose \(\sqrt{2}\) is rational. Then we can write it in lowest terms as  
+   \[
+   \sqrt{2}=\frac{a}{b},
+   \]
+   where \(a,b\in\mathbb Z\), \(b\neq0\), and \(\gcd(a,b)=1\).
+
+2. **Eliminate the square root.**  
+   Square both sides:  
+   \[
+   2 = \frac{a^{2}}{b^{2}}\;\Longrightarrow\; a^{2}=2b^{2}.
+   \]
+
+3. **Show \(a\) must be even.**  
+   The equation \(a^{2}=2b^{2}\) implies that \(a^{2}\) is even (since the right‑hand side is even).  
+   The square of an odd integer is odd, so \(a\) cannot be odd. Hence \(a\) is even: \(a=2k\) for some integer \(k\).
+
+4. **Deduce \(b\) is also even.**  
+   Substitute \(a=2k\) into \(a^{2}=2b^{2}\):  
+   \[
+   (2k)^{2}=2b^{2}\;\Longrightarrow\;4k^{2}=2b^{2}\;\Longrightarrow\;2k^{2}=b^{2}.
+   \]
+   Thus \(b^{2}\) is even, and consequently \(b\) is even.
+
+5. **Contradiction.**  
+   We have shown both \(a\) and \(b\) are even, meaning they share a common factor of \(2\).  
+   This contradicts the assumption that \(\gcd(a,b)=1\).  
+   Therefore the assumption that \(\sqrt{2}\) is rational is false; \(\sqrt{2}\) is irrational.
+prereqs (stage 1) =
+Rational number representation in lowest terms
+Squaring both sides of an equation to eliminate radicals
+Parity property of integer squares (odd square is odd, even square is even)
+Evenness propagation via multiplication by 2
+Contradiction reasoning (proof by contradiction)
+Greatest common divisor concept (co‑prime integers)
+prereqs (stage 3) =
+Representation of rational numbers in lowest terms
+Squaring equations to remove radicals
+Parity of integer squares
+Propagation of evenness through multiplication by 2
+Proof by contradiction
+Coprime integers via greatest common divisor
+prereqs (stage 4) =
+Proof by contradiction
+Representation of rational numbers in lowest terms
+Squaring equations to remove radicals
+Parity of integer squares
+Propagation of evenness through multiplication by 2
+prereqs=
+Propagation of evenness through multiplication by 2
+Parity of integer squares
+Squaring equations to remove radicals
+Representation of rational numbers in lowest terms
+Proof by contradiction
+E=Proof by contradiction
+hl= 4
+H=If you want to prove that √2 is irrational, a useful approach is to start with a **proof by contradiction**. Think about the sentence: “Suppose √2 is rational.”  What does that give you in terms of a fraction a/b with integers a,b and b≠0?  Consider what happens when you square that fraction and compare it to 2 — what kind of relationship between a and b would arise, and why might that lead to an impossibility?
+good=True
+If you want to prove that √2 is irrational, a useful approach is to start with a **proof by contradiction**. Think about the sentence: “Suppose √2 is rational.”  What does that give you in terms of a fraction a/b with integers a,b and b≠0?  Consider what happens when you square that fraction and compare it to 2 — what kind of relationship between a and b would arise, and why might that lead to an impossibility?
+> If sqrt 2 = a/b with be \ne 0, then 2 = a^2/b^2 .. so a^2 = 2b^2 ...
+new_Summ=
+- [S2] Student claims that if √2 = a/b with integers a, b (b ≠ 0), then squaring gives 2 = a²/b², which can be rearranged to a² = 2b².
+SPC=2
+SP=
+1. Use the assumption to obtain the equation \(a^2 = 2b^2\).  
+2. Infer from that equation that the integer \(a\) must be even.  
+3. Express \(a\) as twice another integer, substitute back, and deduce a property about \(b\).  
+4. Conclude that both \(a\) and \(b\) would share a common factor, contradicting the assumption that the fraction was in lowest terms.
+ET =-1
+SED = Student correctly derived \(a^2 = 2b^2\) from \(\sqrt2 = a/b\).
+E=Representation of rational numbers in lowest terms
+good= False
+hl= 4
+H=Remember that a fraction \(a/b\) is in *lowest terms* exactly when the only common divisor of \(a\) and \(b\) is \(1\).  
+In the equation you derived, \(a^2 = 2b^2\), think about what this restriction on common factors tells you about the parity (odd or even nature) of \(a\) and \(b\).
+good=True
+Remember that a fraction \(a/b\) is in *lowest terms* exactly when the only common divisor of \(a\) and \(b\) is \(1\).  
+In the equation you derived, \(a^2 = 2b^2\), think about what this restriction on common factors tells you about the parity (odd or even nature) of \(a\) and \(b\).
+> Hmm...both a and b can't be even. But a^2 is even..that means a is even. So that means b can't be even.
+new_Summ=
+- [S3] claims that a and b cannot both be even.  
+- [S3] infers that a must be even because a² is even.  
+- [S3] concludes that if a is even, then b cannot be even.
+SPC=2
+SP=
+1. Assume √2 can be written as a fraction a/b in lowest terms.  
+2. Derive the equation a² = 2b² from squaring the fraction.  
+3. Use the property of lowest‑terms fractions to analyze the parity of a and b.  
+4. Recognize that the resulting parity contradiction rules out the assumption.
+ET =-1
+SED = The student correctly understands the parity reasoning that a must be even and b cannot be even.
+E=Squaring equations to remove radicals
+good= None
+hl= 4
+H=You’ve already removed the radical by squaring the fraction \( \sqrt{2}=a/b \), which gives the equation you wrote down:  
+
+\(a^{2}=2\,b^{2}\).  
+
+Notice that squaring a fraction eliminates the square root, so the left‑hand side is now a perfect square of an integer, and the right‑hand side is twice a perfect square.  Consider what this tells you about how \(a\) and \(b\) must relate to one another.
+good=True
+You’ve already removed the radical by squaring the fraction \( \sqrt{2}=a/b \), which gives the equation you wrote down:  
+
+\(a^{2}=2\,b^{2}\).  
+
+Notice that squaring a fraction eliminates the square root, so the left‑hand side is now a perfect square of an integer, and the right‑hand side is twice a perfect square.  Consider what this tells you about how \(a\) and \(b\) must relate to one another.
+> You already said it .. a^2 = 2b^2
+new_Summ=
+- The student asserts that the key relationship derived from the assumption \(\sqrt{2}\) is rational is \(a^{2} = 2b^{2}\).
+SPC=2
+SP=
+1. Use the squared equation \(a^2 = 2b^2\) to examine the relationship between \(a\) and \(b\).  
+2. Deduce parity properties of \(a\) and \(b\) (e.g., showing that \(a\) must be even).  
+3. Show that this leads to a contradiction with the assumption that \(a/b\) is in lowest terms, concluding that \(\sqrt{2}\) is irrational.
+ET =-1
+SED = The student correctly restates the derived relationship and has not made an error.
+E=Parity of integer squares
+good= False
+hl= 4
+H=Remember the line you wrote earlier: \(a^2 = 2b^2\). In that same part of the discussion the tutor mentioned that \(a/b\) is in lowest terms. Think about how that restriction on common factors interacts with the parity of \(a\) and \(b\).
+good=True
+Remember the line you wrote earlier: \(a^2 = 2b^2\). In that same part of the discussion the tutor mentioned that \(a/b\) is in lowest terms. Think about how that restriction on common factors interacts with the parity of \(a\) and \(b\).

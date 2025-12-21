@@ -36,4 +36,4 @@ Format:
 - You must only return a few word description of the knowledge components and no other text. 
 - Any symbols used in the knowledge concept must be explained in the text for that knowledge concept itself
 - There should be no references ("this","that step","last step") to other knowledge components.
-- The number of knowledge components MUST be LESS that the old sequence given
+- The number of knowledge components MUST NOT be more than the old sequence given

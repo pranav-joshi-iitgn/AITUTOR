@@ -1,0 +1,80 @@
+solution=
+**Proof that \( \sqrt{2}\) is irrational**
+
+1. **Assume the contrary**: suppose \(\sqrt{2}\) is rational.  
+   Then it can be written as a reduced fraction  
+   \[
+   \sqrt{2}=\frac{a}{b},\qquad a,b\in\mathbb Z,\; b\neq0,\; \gcd(a,b)=1.
+   \]
+
+2. **Square both sides**:  
+   \[
+   2=\frac{a^{2}}{b^{2}}\;\Longrightarrow\; a^{2}=2b^{2}.
+   \]
+
+3. **Deduce that \(a\) is even**:  
+   If \(a\) were odd, \(a^{2}\) would be odd, but the right‑hand side \(2b^{2}\) is even.  
+   Hence \(a\) must be even; write \(a=2k\) for some integer \(k\).
+
+4. **Show that \(b\) is also even**:  
+   Substitute \(a=2k\) into \(a^{2}=2b^{2}\):
+   \[
+   (2k)^{2}=2b^{2}\;\Longrightarrow\;4k^{2}=2b^{2}\;\Longrightarrow\;2k^{2}=b^{2}.
+   \]
+   Thus \(b^{2}\) is even, which forces \(b\) itself to be even.
+
+5. **Contradiction**:  
+   Both \(a\) and \(b\) are even, so they share the common factor 2, contradicting the assumption that \(\gcd(a,b)=1\).  
+   Therefore our initial assumption is false, and \(\sqrt{2}\) cannot be rational.
+
+\(\boxed{\sqrt{2}\text{ is irrational}}\)
+prereqs (stage 1) =
+Assume contrary: suppose √2 is rational, so √2 = a/b with a,b∈ℤ, b≠0, gcd(a,b)=1.
+Square both sides: a² = 2 b².
+Parity: since a² is even, a is even (property that an integer whose square is even is even).
+Write a = 2k with k∈ℤ and substitute: 4k² = 2 b².
+Simplify: 2k² = b², so b² is even, thus b is even.
+Contradiction: a and b both even contradict gcd(a,b)=1, so √2 is irrational.
+prereqs (stage 3) =
+Assume contrary: represent √2 as a/b where a,b ∈ ℤ, b≠0, gcd(a,b)=1 (greatest common divisor).
+Square both sides to obtain a² = 2b².
+Use parity property: if n² is even, then n is even.
+Let a = 2k (k integer); substitute into a² = 2b² to deduce b² is even.
+Contradiction: a and b both even contradicts gcd(a,b)=1.
+Conclude √2 is irrational.
+prereqs (stage 4) =
+Assume √2 rational as a/b with a,b∈ℤ, b≠0, gcd(a,b)=1
+Square both sides: a² = 2b²
+Parity property: if n² even then n even
+Let a=2k (k∈ℤ); substitute into a²=2b² to deduce b even
+Contradiction: a,b both even contradict gcd(a,b)=1; conclude √2 irrational
+prereqs=
+Contradiction: a,b both even contradict gcd(a,b)=1; conclude √2 irrational
+Let a=2k (k∈ℤ); substitute into a²=2b² to deduce b even
+Parity property: if n² even then n even
+Square both sides: a² = 2b²
+Assume √2 rational as a/b with a,b∈ℤ, b≠0, gcd(a,b)=1
+E=Assume √2 rational as a/b with a,b∈ℤ, b≠0, gcd(a,b)=1
+hl= 4
+H=Remember the assumption you made: \(\sqrt{2}=\dfrac{a}{b}\) with \(a,b\in\mathbb Z,\; b\neq0\) and \(\gcd(a,b)=1\).  
+If you square both sides of that equality, what algebraic relation between \(a\) and \(b\) does it produce? Focus on how the powers of \(a\) and \(b\) appear in that resulting equation.
+good=False
+hl= 3
+H=From \(\sqrt{2}=\dfrac{a}{b}\) we have \(2b^{2}=a^{2}\).  
+Since \(a^{2}\) is even, \(a\) must be even; write \(a=2k\) for some integer \(k\).  
+Substituting gives \(2b^{2}=4k^{2}\).  Simplify this equation to find  
+
+\[
+b^{2}= \underline{\hspace{2cm}}
+\]
+good=True
+From \(\sqrt{2}=\dfrac{a}{b}\) we have \(2b^{2}=a^{2}\).  
+Since \(a^{2}\) is even, \(a\) must be even; write \(a=2k\) for some integer \(k\).  
+Substituting gives \(2b^{2}=4k^{2}\).  Simplify this equation to find  
+
+\[
+b^{2}= \underline{\hspace{2cm}}
+\]
+> b^2 = 2k^2
+new_Summ=
+- Student claims that \(b^{2}=2k^{2}\).
